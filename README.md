@@ -62,7 +62,7 @@ Recently, closed commercial "AI memorial" apps have emerged, charging $20/month 
 
 ### 1. Clone & Set Up Environment
 ```bash
-git clone https://github.com/your-username/ofrenda.git
+git clone https://github.com/ish1416/ofrenda.git
 cd ofrenda
 
 # Create and activate virtual environment
