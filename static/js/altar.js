@@ -1,4 +1,4 @@
-// Ofrenda Frontend State & Controller
+// Ofrenda Frontend State & Enhanced Controller
 document.addEventListener('DOMContentLoaded', () => {
   let isOfflineMode = false;
 
@@ -19,9 +19,128 @@ document.addEventListener('DOMContentLoaded', () => {
   const offeringForm = document.getElementById('offering-form');
   const calaveritaBtn = document.getElementById('calaverita-btn');
 
+  // Cassette & Visualizer Elements
+  const cassettePlayBtn = document.getElementById('cassette-play-btn');
+  const cassettePlayIcon = document.getElementById('cassette-play-icon');
+  const cassettePlayText = document.getElementById('cassette-play-text');
+  const reelLeft = document.getElementById('reel-left');
+  const reelRight = document.getElementById('reel-right');
+  const waveformCanvas = document.getElementById('waveform-canvas');
+  const cassetteTime = document.getElementById('cassette-time');
+
+  // Flip Card Element
+  const recipeFlipCard = document.getElementById('recipe-flip-card');
+
+  // Timeline Elements
+  const timelineNodes = document.querySelectorAll('.timeline-node');
+  const timelineStoryDisplay = document.getElementById('timeline-story-display');
+
+  // Papel Picado Garland
+  const papelGarland = document.getElementById('papel-garland');
+
   // Load initial data
   loadAltar();
   loadMemories();
+  initVisualizer();
+
+  // Mouse Parallax on Papel Picado
+  window.addEventListener('mousemove', (e) => {
+    if (!papelGarland) return;
+    const normX = (e.clientX / window.innerWidth - 0.5) * 8;
+    const flags = papelGarland.querySelectorAll('.papel-flag');
+    flags.forEach((f, idx) => {
+      const factor = (idx % 3 + 1) * 0.3;
+      f.style.transform = `rotate(${normX * factor}deg)`;
+    });
+  });
+
+  // 3D Flip Card Toggle
+  if (recipeFlipCard) {
+    recipeFlipCard.addEventListener('click', () => {
+      recipeFlipCard.classList.toggle('flipped');
+    });
+  }
+
+  // Timeline Nodes
+  timelineNodes.forEach(node => {
+    node.addEventListener('click', () => {
+      timelineNodes.forEach(n => n.classList.remove('active'));
+      node.classList.add('active');
+      const story = node.getAttribute('data-story');
+      const year = node.getAttribute('data-year');
+      if (timelineStoryDisplay) {
+        timelineStoryDisplay.innerHTML = `<strong>${year}:</strong> "${story}"`;
+      }
+    });
+  });
+
+  // Cassette Playback Toggle
+  if (cassettePlayBtn) {
+    cassettePlayBtn.addEventListener('click', () => {
+      const isPlaying = window.altarAudio.toggleCassette();
+      updateCassetteUI(isPlaying);
+    });
+
+    window.altarAudio.onCassetteStateChange = (isPlaying) => {
+      updateCassetteUI(isPlaying);
+    };
+  }
+
+  function updateCassetteUI(isPlaying) {
+    if (isPlaying) {
+      cassettePlayIcon.textContent = '⏸';
+      cassettePlayText.textContent = 'Pause Cassette';
+      reelLeft.classList.add('spinning');
+      reelRight.classList.add('spinning');
+      cassetteTime.textContent = '01:14 / 03:45';
+    } else {
+      cassettePlayIcon.textContent = '▶';
+      cassettePlayText.textContent = 'Play Cassette';
+      reelLeft.classList.remove('spinning');
+      reelRight.classList.remove('spinning');
+    }
+  }
+
+  // Real-Time Waveform Visualizer
+  function initVisualizer() {
+    if (!waveformCanvas) return;
+    const ctx = waveformCanvas.getContext('2d');
+    const freqData = new Uint8Array(32);
+
+    function draw() {
+      requestAnimationFrame(draw);
+      ctx.clearRect(0, 0, waveformCanvas.width, waveformCanvas.height);
+
+      if (window.altarAudio.isCassettePlaying) {
+        window.altarAudio.getFrequencyData(freqData);
+      } else {
+        // Flatline or subtle resting hum
+        for (let i = 0; i < freqData.length; i++) {
+          freqData[i] = Math.max(0, freqData[i] - 4);
+        }
+      }
+
+      const barWidth = (waveformCanvas.width / freqData.length) * 0.75;
+      const gap = (waveformCanvas.width / freqData.length) * 0.25;
+
+      for (let i = 0; i < freqData.length; i++) {
+        const val = freqData[i] || 4;
+        const barHeight = (val / 255) * waveformCanvas.height * 0.9;
+        const x = i * (barWidth + gap);
+        const y = waveformCanvas.height - barHeight;
+
+        // Gradient from marigold to candle flame
+        const grad = ctx.createLinearGradient(0, y, 0, waveformCanvas.height);
+        grad.addColorStop(0, '#fef3c7');
+        grad.addColorStop(0.5, '#f59e0b');
+        grad.addColorStop(1, '#ea580c');
+
+        ctx.fillStyle = grad;
+        ctx.fillRect(x, y, barWidth, barHeight);
+      }
+    }
+    draw();
+  }
 
   // Mode toggle (Cloud vs Air-Gapped Local)
   modeToggleBtn.addEventListener('click', () => {
@@ -39,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Audio ambient toggle
   audioToggleBtn.addEventListener('click', () => {
-    const playing = window.altarAudio.toggle();
+    const playing = window.altarAudio.toggleAmbient();
     if (playing) {
       audioToggleBtn.innerHTML = '🔊 Ambient Sound: On';
       audioToggleBtn.classList.add('active');
@@ -84,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
       });
       if (res.ok) {
+        window.altarAudio.playOfferingChime();
         modalBackdrop.classList.remove('open');
         offeringForm.reset();
         loadAltar();
@@ -133,7 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <span>Poema tradicional • ${data.stanzas_count} estrofas</span>
             <span>Versos octosílabos para Día de los Muertos</span>
           </div>
-        `);
+        `, data.poem);
       }
     } catch (err) {
       removeGemmaThinking();
@@ -148,7 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!res.ok) return;
       const data = await res.json();
 
-      // Render Candles
+      // Render Candles with Match Strike & Light Bloom
       candlesContainer.innerHTML = '';
       data.candles.forEach(c => {
         const div = document.createElement('div');
@@ -159,7 +279,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="candle-label">${c.name}</div>
         `;
         div.title = `Click to ${c.is_lit ? 'extinguish' : 'light'} this candle`;
-        div.addEventListener('click', () => toggleCandle(c.id));
+        div.addEventListener('click', () => toggleCandle(c.id, div));
         candlesContainer.appendChild(div);
       });
 
@@ -187,9 +307,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Toggle candle
-  async function toggleCandle(candleId) {
+  // Toggle candle with match sound & bloom effect
+  async function toggleCandle(candleId, candleEl) {
     try {
+      window.altarAudio.playMatchStrike();
+
+      // Trigger bloom effect
+      const bloom = document.createElement('div');
+      bloom.className = 'candle-bloom-ring';
+      candleEl.appendChild(bloom);
+      setTimeout(() => bloom.remove(), 750);
+
       const res = await fetch(`/api/altar/candles/${candleId}/toggle`, { method: 'POST' });
       if (res.ok) loadAltar();
     } catch (e) {
@@ -242,7 +370,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (res.ok) {
         const data = await res.json();
-        const sourcesText = data.sources.length ? `Fuentes: ${data.sources.join(', ')}` : 'Memoria familiar';
         const costText = data.is_local ? '$0.000 (Air-Gapped Local)' : `$${data.cost_usd.toFixed(6)}`;
 
         appendGemmaMessage(`
@@ -251,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <span>⏱️ ${data.latency_ms} ms • 🔤 ${data.estimated_tokens} tokens • 💰 ${costText}</span>
             <span>🛡️ Reverencia: ${(data.reverence_score * 100).toFixed(0)}% • Sentry Traced</span>
           </div>
-        `);
+        `, data.answer);
       } else {
         appendGemmaMessage('No pudimos consultar el archivo en este momento.');
       }
@@ -269,10 +396,26 @@ document.addEventListener('DOMContentLoaded', () => {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }
 
-  function appendGemmaMessage(html) {
+  function appendGemmaMessage(html, textToSpeak) {
     const div = document.createElement('div');
     div.className = 'chat-bubble gemma';
     div.innerHTML = html;
+
+    // Optional Speech Synthesis read aloud button
+    if (textToSpeak && ('speechSynthesis' in window)) {
+      const speakBtn = document.createElement('button');
+      speakBtn.className = 'btn-speak';
+      speakBtn.innerHTML = '🔊 Read Aloud';
+      speakBtn.addEventListener('click', () => {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(textToSpeak.replace(/<[^>]*>?/gm, ''));
+        utterance.rate = 0.9;
+        utterance.pitch = 1.0;
+        window.speechSynthesis.speak(utterance);
+      });
+      div.appendChild(speakBtn);
+    }
+
     chatMessages.appendChild(div);
     chatMessages.scrollTop = chatMessages.scrollHeight;
   }

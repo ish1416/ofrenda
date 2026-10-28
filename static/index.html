@@ -20,7 +20,7 @@
   <canvas id="petals-canvas"></canvas>
 
   <!-- Papel Picado Garland -->
-  <header class="papel-garland" aria-label="Traditional Papel Picado Garland">
+  <header class="papel-garland" id="papel-garland" aria-label="Traditional Papel Picado Garland">
     <div class="papel-flag pink" title="Amor y Alegría">💀</div>
     <div class="papel-flag orange" title="Luz de Cempasúchil">🌼</div>
     <div class="papel-flag purple" title="Duelo y Esperanza">🕯️</div>
@@ -69,7 +69,7 @@
           "Our ancestors do not belong to an API. Grief is not a SaaS metric. We remember our loved ones not through corporate clouds, but through the warmth of memory and the eternal light of open innovation."
         </p>
         <div class="hero-attribution">
-          — In loving honor of <strong>Elena Ramirez Solis</strong> (1938 – 2021) • <span id="homage-count">8</span> Homages Placed
+          — In loving honor of <strong>Elena Ramirez Solis</strong> (1938 – 2021) • <span id="homage-count">8</span> Homages Placed • Click candles to light
         </div>
       </div>
     </header>
@@ -82,7 +82,7 @@
         <div class="tier-header">
           <div class="tier-title-group">
             <h2 id="tier-1-title"><span>Tier 1: El Cielo</span> <span>(Heaven & The Sacred Light)</span></h2>
-            <p class="tier-subtitle">Click candles to light or extinguish them. The light guides Elena's spirit back home.</p>
+            <p class="tier-subtitle">Click candles to strike a match and light their flame. The light guides Elena's spirit back home.</p>
           </div>
           <button id="open-modal-btn" class="btn-toggle active" style="font-size: 0.82rem;">
             + Place New Offering
@@ -103,17 +103,98 @@
         </div>
       </section>
 
-      <!-- Tier 2: Tierra (Traditional Offerings) -->
+      <!-- Tier 2: Tierra (Traditional Offerings, Interactive Cassette & 3D Heirloom Flip) -->
       <section class="tier-card" id="tier-2" aria-labelledby="tier-2-title">
         <div class="tier-header">
           <div class="tier-title-group">
-            <h2 id="tier-2-title"><span>Tier 2: La Tierra</span> <span>(The Elements & Food of Homecoming)</span></h2>
-            <p class="tier-subtitle">Traditional sustenance for the soul: Pan de muerto, copal resin, salt, and cempasúchil petals.</p>
+            <h2 id="tier-2-title"><span>Tier 2: La Tierra</span> <span>(Offerings & Heirlooms of Remembrance)</span></h2>
+            <p class="tier-subtitle">Listen to Abuela's 1975 audio cassette tape or flip her 1966 handwritten Mole Negro recipe card.</p>
           </div>
         </div>
 
+        <!-- Interactive Heirlooms Showcase (Cassette + 3D Recipe Card) -->
+        <div class="heirloom-showcase">
+          <!-- Cassette Player Widget -->
+          <div class="cassette-player-box" id="cassette-player-widget">
+            <div class="cassette-visual">
+              <img src="/assets/cassette_tape.jpg" alt="Elena 1975 Cassette Tape" class="cassette-img">
+              <div class="cassette-reels">
+                <div class="reel" id="reel-left"></div>
+                <div class="reel" id="reel-right"></div>
+              </div>
+            </div>
+            <div>
+              <h4 style="color: var(--candle-core); font-size: 0.98rem; margin-bottom: 4px;">
+                📼 Cassette TDK C-60 (1975): "Canciones y Coyoacán"
+              </h4>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 12px;">
+                Recorded on her Paracho wooden acoustic guitar during spring in Coyoacán. Plays <em>La Llorona</em> acoustic arpeggio.
+              </p>
+              <canvas id="waveform-canvas" class="visualizer-canvas" height="40"></canvas>
+            </div>
+            <div class="cassette-controls">
+              <button id="cassette-play-btn" class="btn-play-cassette">
+                <span id="cassette-play-icon">▶</span> <span id="cassette-play-text">Play Cassette</span>
+              </button>
+              <span id="cassette-time" style="font-family: monospace; font-size: 0.85rem; color: var(--marigold);">00:00 / 03:45</span>
+            </div>
+          </div>
+
+          <!-- 3D Flip Card: Handwritten Recipe Card -->
+          <div class="flip-card" id="recipe-flip-card" title="Click to flip recipe card">
+            <div class="flip-card-inner">
+              <div class="flip-card-front">
+                <img src="/assets/recipe_card.jpg" alt="Handwritten Mole Negro Recipe 1966">
+                <div class="flip-card-front-overlay">
+                  <div>
+                    <h4 style="color: var(--candle-core); margin: 0;">📜 Mole Negro de Oaxaca (1966)</h4>
+                    <span style="font-size: 0.75rem; color: var(--candle-glow);">Handwritten by Elena in ink • Click to flip</span>
+                  </div>
+                  <span style="font-size: 1.4rem;">🔄</span>
+                </div>
+              </div>
+              <div class="flip-card-back">
+                <div>
+                  <h4>Receta Secreta del Mole Negro</h4>
+                  <p>
+                    "Chiles pasilla, mulato y chilhuacle tostados al comal hasta quedar negros como carbón, luego apagados en agua fría de pozo. 
+                    Moler en metate con pan de yema, almendras, pepitas y canela en rama. 
+                    <strong>El secreto:</strong> Dos tablillas de chocolate de metate y plátano macho asado para espesar al final."
+                  </p>
+                </div>
+                <div style="font-size: 0.78rem; color: var(--marigold); border-top: 1px dashed rgba(245, 158, 11, 0.3); padding-top: 8px;">
+                  💬 Consejo de Elena: <em>"Nadie cocina con prisa. El mole huele a fiesta cuando el corazón está tranquilo."</em>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Traditional Offerings Grid -->
+        <h4 style="font-family: var(--font-display); font-size: 1.05rem; color: var(--candle-glow); margin: 18px 0 12px;">
+          🌼 Traditional Offerings on the Altar
+        </h4>
         <div class="offerings-grid" id="offerings-grid" role="list">
           <!-- Offerings injected by JS -->
+        </div>
+
+        <!-- Interactive Life Milestones Timeline -->
+        <div class="timeline-section">
+          <h4 style="font-family: var(--font-display); font-size: 1rem; color: var(--candle-core); margin-bottom: 6px;">
+            ⏳ Elena's Journey: Milestones Through Time
+          </h4>
+          <p style="font-size: 0.78rem; color: var(--text-muted);">Click a milestone to consult her preserved memory from that year.</p>
+          <div class="timeline-nav">
+            <button class="timeline-node active" data-year="1938" data-story="Born in the mountain valleys of Oaxaca, learning ancestral cooking from her grandmother beside stone metates.">1938</button>
+            <button class="timeline-node" data-year="1958" data-story="Stepped off the second-class bus in Mexico City with two cardboard suitcases, baby Roberto in her rebozo, and 15 pesos.">1958</button>
+            <button class="timeline-node" data-year="1966" data-story="Perfected her legendary Mole Negro recipe, blending chilhuacle chiles, roasted plantain, and Mexican cinnamon chocolate.">1966</button>
+            <button class="timeline-node" data-year="1975" data-story="Tuned her Paracho acoustic guitar under the purple jacarandas to record 'La Llorona' and oral memories on cassette.">1975</button>
+            <button class="timeline-node" data-year="1982" data-story="Established her famous rule: 'Nadie levanta la voz donde hay pan calientito. Coman primero, perdónense después.'">1982</button>
+            <button class="timeline-node" data-year="2021" data-story="Entered eternal rest, leaving behind four generations of cooks, singers, and stories that never fade.">2021</button>
+          </div>
+          <div class="timeline-story-box" id="timeline-story-display">
+            "Born in the mountain valleys of Oaxaca, learning ancestral cooking from her grandmother beside stone metates."
+          </div>
         </div>
       </section>
 
