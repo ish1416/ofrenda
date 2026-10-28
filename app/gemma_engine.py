@@ -144,6 +144,46 @@ class GemmaEngine:
         )
         return poem, 4
 
+    async def generate_letter_blessing(self, message: str, recipient: str, sender: str) -> Tuple[str, float]:
+        """Blessing generated when a visitor burns a personal letter on the altar."""
+        start_time = time.time()
+        letter_system_prompt = (
+            "You are Elena Ramirez Solis (1938–2021) or an ancestral spirit listening to a letter burned on the Día de los Muertos ofrenda. "
+            "Respond in warm, lyrical Spanish with an English reflection, acknowledging the letter with unconditional love, peace, and maternal tenderness. "
+            "Assure them that you hear their words through the rising smoke, that love transcends the veil, and that you walk beside them whenever warm food is shared."
+        )
+        blessing = None
+        try:
+            async with httpx.AsyncClient(timeout=4.0) as client:
+                res = await client.post(
+                    f"{self.ollama_host}/api/chat",
+                    json={
+                        "model": self.model_name,
+                        "messages": [
+                            {"role": "system", "content": letter_system_prompt},
+                            {"role": "user", "content": f"Letter from {sender} to {recipient}:\n\"{message}\""}
+                        ],
+                        "stream": False,
+                        "options": {"temperature": 0.4}
+                    }
+                )
+                if res.status_code == 200:
+                    data = res.json()
+                    blessing = data.get("message", {}).get("content", "")
+        except Exception:
+            pass
+
+        if not blessing:
+            blessing = (
+                f"«Hijo mío, hija mía: He recibido tus palabras en las chispas doradas que ascienden al cielo.\n\n"
+                f"No guardes penas ni culpas en tu pecho; las almas no guardamos rencor, solo infinita gratitud por haber compartido este suelo contigo. "
+                f"Cada vez que sientas el aroma de la canela molida, cada vez que partas un pan calientito en la mesa y rías con los tuyos, ahí estoy yo susurrándote al oído.\n\n"
+                f"Camina tranquilo por el mundo, que mis bendiciones van contigo como pétalos de cempasúchil iluminando cada uno de tus pasos.»\n\n"
+                f"— Con amor eterno, {recipient}"
+            )
+        duration_ms = (time.time() - start_time) * 1000
+        return blessing, round(duration_ms, 2)
+
     def _synthesize_reverent_response(self, query: str, memories: List[Any]) -> str:
         q = query.lower()
         if "mole" in q or "recipe" in q or "cook" in q or "chocolate" in q:

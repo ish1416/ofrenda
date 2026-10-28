@@ -3,6 +3,7 @@
 // 1. Acoustic guitar arpeggiation for "La Llorona" cassette playback
 // 2. Real-time AnalyserNode for audio frequency waveform visualization
 // 3. Sound effects: match-strike ignition, offering chime, and ambient night hum
+// 4. Radio Fantasma: Analog vacuum-tube radio static & frequency sweep tuning
 
 class AltarAudio {
   constructor() {
@@ -14,6 +15,12 @@ class AltarAudio {
     this.ambientOscs = [];
     this.cassetteInterval = null;
     this.onCassetteStateChange = null;
+
+    // Radio Fantasma nodes
+    this.radioNoiseNode = null;
+    this.radioFilterNode = null;
+    this.radioGainNode = null;
+    this.radioStationOsc = null;
   }
 
   init() {
@@ -43,7 +50,6 @@ class AltarAudio {
     this.ensureContext();
     const t = this.ctx.currentTime;
 
-    // White noise buffer for friction / strike
     const bufferSize = this.ctx.sampleRate * 0.15;
     const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
     const data = buffer.getChannelData(0);
@@ -54,13 +60,11 @@ class AltarAudio {
     const noise = this.ctx.createBufferSource();
     noise.buffer = buffer;
 
-    // Filter for friction sizzle
     const filter = this.ctx.createBiquadFilter();
     filter.type = 'bandpass';
     filter.frequency.setValueAtTime(3200, t);
     filter.Q.setValueAtTime(3, t);
 
-    // Warm resonant whoosh
     const osc = this.ctx.createOscillator();
     const oscGain = this.ctx.createGain();
     osc.type = 'sine';
@@ -84,7 +88,7 @@ class AltarAudio {
   playOfferingChime() {
     this.ensureContext();
     const t = this.ctx.currentTime;
-    const freqs = [587.33, 880.0, 1174.66]; // D5, A5, D6 harmonic chime
+    const freqs = [587.33, 880.0, 1174.66, 1760.0]; // D5, A5, D6, A6 celestial chime
 
     freqs.forEach((f, i) => {
       const osc = this.ctx.createOscillator();
@@ -93,16 +97,16 @@ class AltarAudio {
       osc.frequency.setValueAtTime(f, t);
 
       g.gain.setValueAtTime(0.06 / (i + 1), t);
-      g.gain.exponentialRampToValueAtTime(0.0001, t + 1.2 + i * 0.2);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 1.2 + i * 0.25);
 
       osc.connect(g);
       g.connect(this.gainNode);
       osc.start(t);
-      osc.stop(t + 1.5);
+      osc.stop(t + 1.6);
     });
   }
 
-  // Ambient candle hum
+  // Ambient candle & night wind hum
   toggleAmbient() {
     this.ensureContext();
     if (this.isAmbientPlaying) {
@@ -167,7 +171,6 @@ class AltarAudio {
     this.isCassettePlaying = true;
 
     // "La Llorona" chord progression arpeggios (Dm, Gm, A7, Dm)
-    // Notes: [D3, F3, A3, D4, C4, Bb3, A3, G3, F3, E3, D3...]
     const notes = [
       146.83, 174.61, 220.00, 293.66, 220.00, 174.61, // Dm
       196.00, 233.08, 293.66, 392.00, 293.66, 233.08, // Gm
@@ -204,13 +207,11 @@ class AltarAudio {
     osc.type = 'sawtooth';
     osc.frequency.setValueAtTime(freq, t);
 
-    // Warm guitar low-pass filter
     const filter = this.ctx.createBiquadFilter();
     filter.type = 'lowpass';
     filter.frequency.setValueAtTime(1400, t);
     filter.frequency.exponentialRampToValueAtTime(350, t + 0.6);
 
-    // Acoustic pluck envelope
     g.gain.setValueAtTime(0.09, t);
     g.gain.exponentialRampToValueAtTime(0.0001, t + 0.55);
 
@@ -222,7 +223,122 @@ class AltarAudio {
     osc.stop(t + 0.6);
   }
 
-  // Get frequency byte data for animated waveform visualizer
+  // Radio Fantasma: Analog Tuning Static Burst
+  playRadioTuning(freqHz) {
+    this.ensureContext();
+    const t = this.ctx.currentTime;
+
+    // Create realistic analog static burst
+    const bufferSize = this.ctx.sampleRate * 0.25;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * 0.4;
+    }
+
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(freqHz || 1200, t);
+    filter.Q.setValueAtTime(4, t);
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.06, t);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.25);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.gainNode);
+
+    noise.start(t);
+    noise.stop(t + 0.25);
+  }
+
+  // Sacred Flame Letter Burning: White noise crackle + warm rushing flame whoosh
+  playLetterBurn() {
+    this.ensureContext();
+    const t = this.ctx.currentTime;
+
+    // 1. Paper ember crackle noise
+    const bufferSize = this.ctx.sampleRate * 0.8;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * (Math.random() > 0.85 ? 0.8 : 0.08);
+    }
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const noiseFilter = this.ctx.createBiquadFilter();
+    noiseFilter.type = 'highpass';
+    noiseFilter.frequency.setValueAtTime(2400, t);
+
+    const noiseGain = this.ctx.createGain();
+    noiseGain.gain.setValueAtTime(0.08, t);
+    noiseGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.8);
+
+    noise.connect(noiseFilter);
+    noiseFilter.connect(noiseGain);
+    noiseGain.connect(this.gainNode);
+    noise.start(t);
+    noise.stop(t + 0.8);
+
+    // 2. Warm rushing ascension flame
+    const osc = this.ctx.createOscillator();
+    const oscGain = this.ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(120, t);
+    osc.frequency.exponentialRampToValueAtTime(480, t + 0.7);
+
+    oscGain.gain.setValueAtTime(0.06, t);
+    oscGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.75);
+
+    osc.connect(oscGain);
+    oscGain.connect(this.gainNode);
+    osc.start(t);
+    osc.stop(t + 0.75);
+  }
+
+  // Four-Direction Celestial Harmony: Rings when all 4 cardinal candles are lit
+  playSacredChord() {
+    this.ensureContext();
+    const t = this.ctx.currentTime;
+    // D major add9 celestial chord (D4, F#4, A4, E5)
+    const chordNotes = [293.66, 369.99, 440.00, 659.25];
+
+    chordNotes.forEach((freq, idx) => {
+      const osc = this.ctx.createOscillator();
+      const g = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, t);
+
+      g.gain.setValueAtTime(0.07 / (idx + 1), t);
+      g.gain.exponentialRampToValueAtTime(0.0001, t + 3.0);
+
+      osc.connect(g);
+      g.connect(this.gainNode);
+      osc.start(t);
+      osc.stop(t + 3.0);
+    });
+  }
+
+  // Vintage Radio Speech Simulation: Spoken with vintage AM radio frequency filtering
+  speakVintageRadio(text) {
+    if (!('speechSynthesis' in window)) return;
+    this.ensureContext();
+    this.playRadioTuning(950);
+
+    setTimeout(() => {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.rate = 0.88;
+      utterance.pitch = 0.95;
+      window.speechSynthesis.speak(utterance);
+    }, 280);
+  }
+
   getFrequencyData(array) {
     if (this.analyser) {
       this.analyser.getByteFrequencyData(array);

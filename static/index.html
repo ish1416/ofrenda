@@ -45,6 +45,9 @@
     </div>
 
     <div class="nav-actions">
+      <button id="seance-toggle-btn" class="btn-toggle btn-seance" title="Enter midnight séance mode with Copal smoke and spirit radio">
+        🔮 Thin the Veil (Séance Mode)
+      </button>
       <button id="mode-toggle-btn" class="btn-toggle" title="Switch between cloud preview and 100% air-gapped local model">
         ☁️ Cloud Demo (Render)
       </button>
@@ -73,6 +76,14 @@
         </div>
       </div>
     </header>
+
+    <!-- Sacred Quadrant Harmony Banner -->
+    <div class="sacred-quadrant-banner" id="sacred-quadrant-banner" style="display: none;">
+      <span style="font-size: 1.4rem;">🕯️</span>
+      <span id="quadrant-banner-text">
+        <strong>El Cuadrante Sagrado está en Armonía:</strong> Los 4 rumbos (Norte • Tierra, Sur • Fuego, Este • Viento, Oeste • Agua) están encendidos. El umbral hacia Elena está abierto.
+      </span>
+    </div>
 
     <!-- 3-Tier Altar Stage -->
     <div class="altar-stage">
@@ -103,12 +114,12 @@
         </div>
       </section>
 
-      <!-- Tier 2: Tierra (Traditional Offerings, Interactive Cassette & 3D Heirloom Flip) -->
+      <!-- Tier 2: Tierra (Offerings, Radio Fantasma, Sugar Skull Studio & 3D Recipe Flip) -->
       <section class="tier-card" id="tier-2" aria-labelledby="tier-2-title">
         <div class="tier-header">
           <div class="tier-title-group">
-            <h2 id="tier-2-title"><span>Tier 2: La Tierra</span> <span>(Offerings & Heirlooms of Remembrance)</span></h2>
-            <p class="tier-subtitle">Listen to Abuela's 1975 audio cassette tape or flip her 1966 handwritten Mole Negro recipe card.</p>
+            <h2 id="tier-2-title"><span>Tier 2: La Tierra</span> <span>(Offerings, Spirit Radio & Sugar Skull Studio)</span></h2>
+            <p class="tier-subtitle">Listen to Abuela's 1975 audio cassette tape, tune the vacuum-tube spirit radio, or inscribe a sugar skull.</p>
           </div>
         </div>
 
@@ -170,8 +181,75 @@
           </div>
         </div>
 
+        <!-- Radio Fantasma (Spirit Transceiver) -->
+        <div class="spirit-radio-card" id="spirit-radio-box">
+          <img src="/assets/spirit_radio.jpg" alt="Vacuum Tube Spirit Radio" class="spirit-radio-img">
+          <div class="radio-dial-container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <h4 style="color: var(--candle-glow); font-family: var(--font-display); font-size: 1.05rem;">
+                📻 Radio Fantasma: Transceptor de Épocas
+              </h4>
+              <span style="font-size: 0.75rem; color: #c084fc; border: 1px solid #c084fc; padding: 2px 8px; border-radius: 12px;">
+                Tubo 12AX7 Activo
+              </span>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">
+              Tune the analog frequency dial across the historical timeline to hear static dissolve into Elena's memories.
+            </p>
+            <div class="radio-dial-glass">
+              <div class="radio-scale">
+                <span>540</span> <span>700</span> <span>950</span> <span>1200</span> <span>1400</span> <span>1600 kHz</span>
+              </div>
+              <input type="range" id="radio-tuner-slider" class="radio-slider" min="540" max="1600" step="10" value="1200">
+            </div>
+            <div class="radio-station-readout" id="radio-station-readout">
+              <div>
+                <strong id="radio-freq-label" style="color: var(--candle-glow);">1200 kHz (1975)</strong>:
+                <span id="radio-freq-desc">Sintonizando 'La Llorona' en la guitarra Paracho bajo las jacarandas.</span>
+              </div>
+              <span id="radio-signal-icon">📡</span>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center; margin-top: 4px;">
+              <button id="radio-listen-btn" class="console-submit" style="background: linear-gradient(135deg, #9333ea, #c084fc); color: white; display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; font-size: 0.82rem;">
+                📻 Escuchar Frecuencia Histórica
+              </button>
+              <span id="radio-status-text" style="font-size: 0.74rem; color: #d8b4fe; font-style: italic;"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sugar Skull Customizer Studio -->
+        <div class="sugar-skull-studio">
+          <div class="skull-preview-box">
+            <img src="/assets/sugar_skull.jpg" alt="Custom Sugar Skull" class="skull-preview-img">
+            <div class="skull-name-overlay" id="skull-name-display">ELENA</div>
+          </div>
+          <div>
+            <h4 style="color: var(--candle-core); font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 6px;">
+              💀 Inscribe a Calavera de Azúcar (Sugar Skull)
+            </h4>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">
+              Inscribe a beloved name in gold leaf across the forehead and choose your royal sugar icing color.
+            </p>
+            <div class="icing-selector" id="icing-palette" style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px;">
+              <span style="font-size: 0.75rem; color: var(--text-muted);">Glaseado:</span>
+              <button type="button" class="icing-btn active" data-color="#f59e0b" style="background:#f59e0b;" title="Cempasúchil Oro"></button>
+              <button type="button" class="icing-btn" data-color="#ec4899" style="background:#ec4899;" title="Bugambilia"></button>
+              <button type="button" class="icing-btn" data-color="#10b981" style="background:#10b981;" title="Jade"></button>
+              <button type="button" class="icing-btn" data-color="#38bdf8" style="background:#38bdf8;" title="Turquesa"></button>
+              <button type="button" class="icing-btn" data-color="#f8fafc" style="background:#f8fafc;" title="Plata"></button>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+              <input type="text" id="skull-name-input" class="console-input" style="max-width: 220px;" placeholder="Name (e.g. Elena, Abuelo)" value="ELENA" maxlength="15">
+              <button id="bless-skull-btn" class="console-submit" style="padding: 10px 18px;">
+                ✨ Bendecir y Colocar en Altar
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Traditional Offerings Grid -->
-        <h4 style="font-family: var(--font-display); font-size: 1.05rem; color: var(--candle-glow); margin: 18px 0 12px;">
+        <h4 style="font-family: var(--font-display); font-size: 1.05rem; color: var(--candle-glow); margin: 24px 0 12px;">
           🌼 Traditional Offerings on the Altar
         </h4>
         <div class="offerings-grid" id="offerings-grid" role="list">
@@ -185,15 +263,15 @@
           </h4>
           <p style="font-size: 0.78rem; color: var(--text-muted);">Click a milestone to consult her preserved memory from that year.</p>
           <div class="timeline-nav">
-            <button class="timeline-node active" data-year="1938" data-story="Born in the mountain valleys of Oaxaca, learning ancestral cooking from her grandmother beside stone metates.">1938</button>
+            <button class="timeline-node" data-year="1938" data-story="Born in the mountain valleys of Oaxaca, learning ancestral cooking from her grandmother beside stone metates.">1938</button>
             <button class="timeline-node" data-year="1958" data-story="Stepped off the second-class bus in Mexico City with two cardboard suitcases, baby Roberto in her rebozo, and 15 pesos.">1958</button>
             <button class="timeline-node" data-year="1966" data-story="Perfected her legendary Mole Negro recipe, blending chilhuacle chiles, roasted plantain, and Mexican cinnamon chocolate.">1966</button>
-            <button class="timeline-node" data-year="1975" data-story="Tuned her Paracho acoustic guitar under the purple jacarandas to record 'La Llorona' and oral memories on cassette.">1975</button>
+            <button class="timeline-node active" data-year="1975" data-story="Tuned her Paracho acoustic guitar under the purple jacarandas to record 'La Llorona' and oral memories on cassette.">1975</button>
             <button class="timeline-node" data-year="1982" data-story="Established her famous rule: 'Nadie levanta la voz donde hay pan calientito. Coman primero, perdónense después.'">1982</button>
             <button class="timeline-node" data-year="2021" data-story="Entered eternal rest, leaving behind four generations of cooks, singers, and stories that never fade.">2021</button>
           </div>
           <div class="timeline-story-box" id="timeline-story-display">
-            "Born in the mountain valleys of Oaxaca, learning ancestral cooking from her grandmother beside stone metates."
+            "1975: Tuned her Paracho acoustic guitar under the purple jacarandas to record 'La Llorona' and oral memories on cassette."
           </div>
         </div>
       </section>
@@ -211,8 +289,35 @@
         </div>
 
         <div class="chronicler-layout">
-          <!-- Family Memories Ledger -->
+          <!-- Family Memories Ledger & Letter Burning Ritual -->
           <div>
+            <!-- Letter Burning Ritual Widget -->
+            <div class="letter-ritual-box" id="letter-ritual-box">
+              <div class="ritual-header">
+                <h4 style="font-family: var(--font-display); font-size: 0.98rem; color: #fbbf24; margin: 0;">
+                  ✉️ Quemar Carta a las Ánimas (Sacred Memory Ritual)
+                </h4>
+                <span style="font-size: 0.72rem; color: #f59e0b; border: 1px dashed rgba(245, 158, 11, 0.4); padding: 2px 8px; border-radius: 12px;">
+                  Humo y Ceniza
+                </span>
+              </div>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin: 6px 0 10px;">
+                Write an unsaid remembrance, secret message, or gratitude to Elena or your departed loved one. Entrust it to the holy fire: the paper dissolves into golden embers ascending to <em>El Cielo</em>, and Gemma returns an ancestral blessing.
+              </p>
+              <div class="letter-parchment" id="letter-parchment-area">
+                <textarea id="sacred-letter-input" class="form-control" rows="2" style="font-size: 0.82rem;" placeholder="Querida Elena... I still remember the fragrance of your cinnamon chocolate..."></textarea>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; flex-wrap: wrap; gap: 8px;">
+                  <div style="display: flex; gap: 8px;">
+                    <input type="text" id="letter-sender-name" class="console-input" style="max-width: 110px; padding: 5px 8px; font-size: 0.75rem;" placeholder="Tu Nombre" value="Tu Familia">
+                    <input type="text" id="letter-recipient-name" class="console-input" style="max-width: 110px; padding: 5px 8px; font-size: 0.75rem;" placeholder="Para Quién" value="Elena">
+                  </div>
+                  <button id="burn-letter-btn" class="console-submit" style="background: linear-gradient(135deg, #ef4444, #f59e0b); color: white; padding: 6px 14px; font-size: 0.8rem; display: flex; align-items: center; gap: 6px;">
+                    🔥 Entregar al Fuego Sagrado
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <h3 style="font-family: var(--font-display); font-size: 1.05rem; color: var(--candle-glow); margin-bottom: 14px;">
               📜 Family Memory Ledger (Air-Gapped)
             </h3>
@@ -311,6 +416,7 @@
   <!-- Scripts -->
   <script src="/js/petals.js"></script>
   <script src="/js/audio.js"></script>
+  <script src="/js/smoke.js"></script>
   <script src="/js/altar.js"></script>
 </body>
 </html>

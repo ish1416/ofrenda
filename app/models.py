@@ -62,3 +62,16 @@ class AltarStatus(BaseModel):
     offerings: List[Offering]
     memories_count: int
     total_homages: int
+
+class LetterRequest(BaseModel):
+    message: str
+    recipient_name: Optional[str] = "Elena"
+    sender_name: Optional[str] = "Familia"
+
+class LetterResponse(BaseModel):
+    blessing: str
+    recipient_name: str
+    embers_released: int
+    model_used: str
+    latency_ms: float
+    reverence_score: float

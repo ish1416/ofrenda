@@ -117,4 +117,15 @@
   }
 
   loop();
+
+  window.burstPetalsAt = function(x, y, count = 12) {
+    for (let i = 0; i < count; i++) {
+      const p = new Petal();
+      p.x = x + (Math.random() - 0.5) * 30;
+      p.y = y + (Math.random() - 0.5) * 30;
+      p.speedX = (Math.random() - 0.5) * 5;
+      p.speedY = -Math.random() * 4 - 1.5;
+      petals.push(p);
+    }
+  };
 })();

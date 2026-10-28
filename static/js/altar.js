@@ -1,6 +1,9 @@
-// Ofrenda Frontend State & Enhanced Controller
+// Ofrenda: Living Digital Altar & Oral History Vault Controller
 document.addEventListener('DOMContentLoaded', () => {
   let isOfflineMode = false;
+  let isSeanceActive = false;
+  let selectedIcingColor = '#f59e0b';
+  let hadAllCandlesLit = false;
 
   // DOM Elements
   const candlesContainer = document.getElementById('candles-row');
@@ -12,12 +15,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const modelBadgeText = document.getElementById('model-badge-text');
   const modeToggleBtn = document.getElementById('mode-toggle-btn');
   const audioToggleBtn = document.getElementById('audio-toggle-btn');
+  const seanceToggleBtn = document.getElementById('seance-toggle-btn');
   const exportBtn = document.getElementById('export-btn');
   const modalBackdrop = document.getElementById('modal-backdrop');
   const openModalBtn = document.getElementById('open-modal-btn');
   const closeModalBtn = document.getElementById('close-modal-btn');
   const offeringForm = document.getElementById('offering-form');
   const calaveritaBtn = document.getElementById('calaverita-btn');
+  const sacredQuadrantBanner = document.getElementById('sacred-quadrant-banner');
 
   // Cassette & Visualizer Elements
   const cassettePlayBtn = document.getElementById('cassette-play-btn');
@@ -38,7 +43,37 @@ document.addEventListener('DOMContentLoaded', () => {
   // Papel Picado Garland
   const papelGarland = document.getElementById('papel-garland');
 
-  // Load initial data
+  // Radio Fantasma Elements
+  const radioSlider = document.getElementById('radio-tuner-slider');
+  const radioFreqLabel = document.getElementById('radio-freq-label');
+  const radioFreqDesc = document.getElementById('radio-freq-desc');
+  const radioListenBtn = document.getElementById('radio-listen-btn');
+  const radioStatusText = document.getElementById('radio-status-text');
+
+  // Sugar Skull Elements
+  const skullNameInput = document.getElementById('skull-name-input');
+  const skullNameDisplay = document.getElementById('skull-name-display');
+  const blessSkullBtn = document.getElementById('bless-skull-btn');
+  const icingButtons = document.querySelectorAll('.icing-btn');
+
+  // Letter Burning Ritual Elements
+  const sacredLetterInput = document.getElementById('sacred-letter-input');
+  const letterSenderName = document.getElementById('letter-sender-name');
+  const letterRecipientName = document.getElementById('letter-recipient-name');
+  const burnLetterBtn = document.getElementById('burn-letter-btn');
+  const letterParchmentArea = document.getElementById('letter-parchment-area');
+
+  // Radio Historical Frequencies
+  const RADIO_STATIONS = [
+    { freq: 540, year: '1938', title: 'Valle de Oaxaca', desc: 'Elena niña aprende a moler maíz en metate mientras su abuela canta un arrullo mixteco.', quote: 'El arrullo mixteco en el valle de Oaxaca, 1938. El comal de barro ya huele a maíz tierno.' },
+    { freq: 700, year: '1958', title: 'Llegada a Coyoacán', desc: 'Los frenos del autobús de segunda clase en Plaza Hidalgo con Roberto en el rebozo y 15 pesos.', quote: 'Octubre de 1958. Llegamos a la Ciudad de México con dos maletas de cartón amarradas con mecate. No teníamos miedo; la ciudad olía a castañas asadas.' },
+    { freq: 950, year: '1966', title: 'Plaza de Santo Domingo', desc: 'La banda municipal tocando "Dios Nunca Muere" mientras perfecciona su Mole Negro con dos tablillas de chocolate.', quote: '1966: Para el Mole Negro, tostar los chiles chilhuacle al comal hasta quedar negros como el tizón, y apagar con agua fría de pozo.' },
+    { freq: 1200, year: '1975', title: 'Bajo las Jacarandas', desc: 'Sintonizando "La Llorona" en su guitarra Paracho y las risas de sus hermanas grabadas en casete.', quote: 'Primavera de 1975 en Coyoacán. Elena afina su guitarra Paracho para cantar La Llorona: Ay de mí, Llorona, Llorona de azul celeste...' },
+    { freq: 1400, year: '1982', title: 'La Mesa de la Cocina', desc: '"Nadie levanta la voz donde hay pan calientito. Coman primero, perdónense después."', quote: 'Regla de la casa en 1982: Nadie levanta la voz donde hay pan calientito. Coman primero, perdónense después.' },
+    { freq: 1600, year: '2026', title: 'Frecuencia del Umbral (Gemma)', desc: 'Transmisión del espíritu: "Los muertos no mueren mientras su nombre se pronuncie con amor."', quote: 'Frecuencia de las Ánimas: Los muertos solo mueren cuando se les olvida. Mientras tú me recuerdes con alegría, aquí estaré a tu lado.' }
+  ];
+
+  // Initialize Altar
   loadAltar();
   loadMemories();
   initVisualizer();
@@ -54,14 +89,219 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 3D Flip Card Toggle
+  // 1. Séance Mode (Thin the Veil)
+  if (seanceToggleBtn) {
+    seanceToggleBtn.addEventListener('click', () => {
+      isSeanceActive = !isSeanceActive;
+      document.body.classList.toggle('seance-mode', isSeanceActive);
+      seanceToggleBtn.classList.toggle('active', isSeanceActive);
+
+      if (window.toggleSeanceSmoke) {
+        window.toggleSeanceSmoke(isSeanceActive);
+      }
+
+      if (isSeanceActive) {
+        seanceToggleBtn.innerHTML = '🔮 Veil Thinned (Séance Active)';
+        window.altarAudio.playOfferingChime();
+        if (!window.altarAudio.isAmbientPlaying) {
+          window.altarAudio.toggleAmbient();
+          audioToggleBtn.innerHTML = '🔊 Ambient Sound: On';
+          audioToggleBtn.classList.add('active');
+        }
+      } else {
+        seanceToggleBtn.innerHTML = '🔮 Thin the Veil (Séance Mode)';
+      }
+    });
+  }
+
+  // 2. Radio Fantasma Tuning & Speech
+  if (radioSlider) {
+    radioSlider.addEventListener('input', (e) => {
+      const val = parseInt(e.target.value, 10);
+      window.altarAudio.playRadioTuning(val);
+
+      // Find closest station
+      let closest = RADIO_STATIONS[0];
+      let minDiff = 9999;
+      RADIO_STATIONS.forEach(s => {
+        const diff = Math.abs(s.freq - val);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closest = s;
+        }
+      });
+
+      if (minDiff < 70) {
+        radioFreqLabel.textContent = `${closest.freq} kHz (${closest.year}) - ${closest.title}`;
+        radioFreqDesc.textContent = closest.desc;
+        if (radioStatusText) radioStatusText.textContent = '● Frecuencia Sintonizada';
+      } else {
+        radioFreqLabel.textContent = `${val} kHz`;
+        radioFreqDesc.textContent = 'Estática de radio analógica... Gira el sintonizador hacia 540, 700, 950, 1200, 1400 o 1600 kHz.';
+        if (radioStatusText) radioStatusText.textContent = '';
+      }
+    });
+  }
+
+  if (radioListenBtn) {
+    radioListenBtn.addEventListener('click', () => {
+      const val = parseInt(radioSlider.value, 10);
+      let closest = RADIO_STATIONS[0];
+      let minDiff = 9999;
+      RADIO_STATIONS.forEach(s => {
+        const diff = Math.abs(s.freq - val);
+        if (diff < minDiff) {
+          minDiff = diff;
+          closest = s;
+        }
+      });
+
+      if (radioStatusText) radioStatusText.textContent = `Transfiriendo audio ${closest.freq} kHz...`;
+      window.altarAudio.speakVintageRadio(closest.quote);
+      setTimeout(() => {
+        if (radioStatusText) radioStatusText.textContent = '● En el aire';
+      }, 500);
+    });
+  }
+
+  // 3. Sugar Skull Artisan Studio
+  if (skullNameInput && skullNameDisplay) {
+    skullNameInput.addEventListener('input', (e) => {
+      const text = e.target.value.trim().toUpperCase() || 'ELENA';
+      skullNameDisplay.textContent = text;
+    });
+  }
+
+  icingButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      icingButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedIcingColor = btn.getAttribute('data-color') || '#f59e0b';
+
+      if (skullNameDisplay) {
+        skullNameDisplay.style.boxShadow = `0 0 12px ${selectedIcingColor}`;
+        skullNameDisplay.style.borderColor = selectedIcingColor;
+      }
+    });
+  });
+
+  if (blessSkullBtn) {
+    blessSkullBtn.addEventListener('click', async (e) => {
+      const name = (skullNameInput.value.trim().toUpperCase()) || 'ELENA';
+      window.altarAudio.playOfferingChime();
+
+      if (window.burstPetalsAt) {
+        const rect = blessSkullBtn.getBoundingClientRect();
+        window.burstPetalsAt(rect.left + rect.width / 2, rect.top, 20);
+      }
+
+      blessSkullBtn.disabled = true;
+      blessSkullBtn.textContent = '✨ Bendiciendo...';
+
+      try {
+        await fetch('/api/altar/offerings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            id: 'skull_' + Date.now(),
+            name: `Calavera de Azúcar: ${name}`,
+            category: 'memento',
+            description: `Calavera artesanal bendecida en azúcar real con glaseado real y el nombre de ${name}.`,
+            icon: '💀'
+          })
+        });
+        loadAltar();
+      } catch (err) {
+        console.error('Failed to place sugar skull:', err);
+      } finally {
+        setTimeout(() => {
+          blessSkullBtn.disabled = false;
+          blessSkullBtn.textContent = '✨ Bendecir y Colocar en Altar';
+        }, 1200);
+      }
+    });
+  }
+
+  // 4. Sacred Letter Burning Ritual
+  if (burnLetterBtn) {
+    burnLetterBtn.addEventListener('click', async (e) => {
+      const message = sacredLetterInput.value.trim();
+      if (!message) {
+        sacredLetterInput.focus();
+        return;
+      }
+
+      const sender = letterSenderName.value.trim() || 'Tu Familia';
+      const recipient = letterRecipientName.value.trim() || 'Elena';
+
+      burnLetterBtn.disabled = true;
+      burnLetterBtn.textContent = '🔥 Quemando en el altar...';
+
+      // 1. Trigger flame audio and paper incinerate animation
+      window.altarAudio.playLetterBurn();
+      if (letterParchmentArea) {
+        letterParchmentArea.classList.add('burning');
+      }
+
+      if (window.burstPetalsAt) {
+        const rect = burnLetterBtn.getBoundingClientRect();
+        window.burstPetalsAt(rect.left + rect.width / 2, rect.top, 28);
+      }
+
+      // Display in Gemma Chat Console
+      appendUserMessage(`✉️ Carta entregada al fuego sagrado para ${recipient}:\n"${message}"`);
+      appendGemmaThinking();
+
+      try {
+        const res = await fetch('/api/chat/letter', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: message,
+            recipient_name: recipient,
+            sender_name: sender
+          })
+        });
+
+        removeGemmaThinking();
+
+        if (res.ok) {
+          const data = await res.json();
+          appendGemmaMessage(`
+            <strong style="color: #fbbf24;">🕊️ Bendición de las Ánimas (Respuesta de ${data.recipient_name}):</strong><br><br>
+            <div style="font-style: italic; line-height: 1.6; border-left: 2px solid #f59e0b; padding-left: 12px; margin-bottom: 8px;">
+              ${data.blessing.replace(/\n\n/g, '<br><br>')}
+            </div>
+            <div class="trace-info">
+              <span>✨ ${data.embers_released} chispas doradas ascendieron al cielo</span>
+              <span>🛡️ Reverencia: 100% • Sentry Traced (${data.latency_ms} ms)</span>
+            </div>
+          `, data.blessing);
+        } else {
+          appendGemmaMessage('El fuego consumió la carta, pero la conexión espiritual tuvo una breve interrupción.');
+        }
+      } catch (err) {
+        removeGemmaThinking();
+        appendGemmaMessage('Tus palabras han sido entregadas al cielo en el humo sagrado del copal.');
+      } finally {
+        setTimeout(() => {
+          if (letterParchmentArea) letterParchmentArea.classList.remove('burning');
+          sacredLetterInput.value = '';
+          burnLetterBtn.disabled = false;
+          burnLetterBtn.innerHTML = '🔥 Entregar al Fuego Sagrado';
+        }, 1300);
+      }
+    });
+  }
+
+  // 5. 3D Flip Card Toggle
   if (recipeFlipCard) {
     recipeFlipCard.addEventListener('click', () => {
       recipeFlipCard.classList.toggle('flipped');
     });
   }
 
-  // Timeline Nodes
+  // 6. Timeline Nodes
   timelineNodes.forEach(node => {
     node.addEventListener('click', () => {
       timelineNodes.forEach(n => n.classList.remove('active'));
@@ -74,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Cassette Playback Toggle
+  // 7. Cassette Playback Toggle
   if (cassettePlayBtn) {
     cassettePlayBtn.addEventListener('click', () => {
       const isPlaying = window.altarAudio.toggleCassette();
@@ -101,7 +341,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Real-Time Waveform Visualizer
+  // 8. Real-Time Waveform Visualizer
   function initVisualizer() {
     if (!waveformCanvas) return;
     const ctx = waveformCanvas.getContext('2d');
@@ -114,7 +354,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (window.altarAudio.isCassettePlaying) {
         window.altarAudio.getFrequencyData(freqData);
       } else {
-        // Flatline or subtle resting hum
         for (let i = 0; i < freqData.length; i++) {
           freqData[i] = Math.max(0, freqData[i] - 4);
         }
@@ -129,7 +368,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const x = i * (barWidth + gap);
         const y = waveformCanvas.height - barHeight;
 
-        // Gradient from marigold to candle flame
         const grad = ctx.createLinearGradient(0, y, 0, waveformCanvas.height);
         grad.addColorStop(0, '#fef3c7');
         grad.addColorStop(0.5, '#f59e0b');
@@ -142,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
     draw();
   }
 
-  // Mode toggle (Cloud vs Air-Gapped Local)
+  // 9. Mode toggle (Cloud vs Air-Gapped Local)
   modeToggleBtn.addEventListener('click', () => {
     isOfflineMode = !isOfflineMode;
     if (isOfflineMode) {
@@ -156,7 +394,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Audio ambient toggle
+  // 10. Audio ambient toggle
   audioToggleBtn.addEventListener('click', () => {
     const playing = window.altarAudio.toggleAmbient();
     if (playing) {
@@ -168,19 +406,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Export Keepsake PDF
+  // 11. Export Keepsake PDF
   exportBtn.addEventListener('click', () => {
     window.open('/api/memories/export', '_blank');
   });
 
-  // Modal open/close
+  // 12. Modal open/close
   openModalBtn.addEventListener('click', () => modalBackdrop.classList.add('open'));
   closeModalBtn.addEventListener('click', () => modalBackdrop.classList.remove('open'));
   modalBackdrop.addEventListener('click', (e) => {
     if (e.target === modalBackdrop) modalBackdrop.classList.remove('open');
   });
 
-  // New offering form submit
+  // 13. New offering form submit
   offeringForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const name = document.getElementById('offering-name').value.trim();
@@ -213,7 +451,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Chat submit
+  // 14. Chat submit
   chatForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const query = chatInput.value.trim();
@@ -261,12 +499,27 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Load Altar Status
+  // 15. Load Altar Status
   async function loadAltar() {
     try {
       const res = await fetch('/api/altar');
       if (!res.ok) return;
       const data = await res.json();
+
+      // Check Cardinal Quadrant status
+      const allLit = data.candles && data.candles.length === 4 && data.candles.every(c => c.is_lit);
+      if (sacredQuadrantBanner) {
+        if (allLit) {
+          sacredQuadrantBanner.style.display = 'flex';
+          if (!hadAllCandlesLit) {
+            window.altarAudio.playSacredChord();
+            hadAllCandlesLit = true;
+          }
+        } else {
+          sacredQuadrantBanner.style.display = 'none';
+          hadAllCandlesLit = false;
+        }
+      }
 
       // Render Candles with Match Strike & Light Bloom
       candlesContainer.innerHTML = '';
@@ -325,7 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Load Memories
+  // 16. Load Memories
   async function loadMemories() {
     try {
       const res = await fetch('/api/memories');
@@ -336,6 +589,8 @@ document.addEventListener('DOMContentLoaded', () => {
       list.forEach(m => {
         const item = document.createElement('div');
         item.className = 'memory-item';
+        item.style.cursor = 'pointer';
+        item.title = 'Click to consult Gemma about this memory';
         item.innerHTML = `
           <div class="memory-meta">
             <span class="memory-title">${m.title}</span>
@@ -344,6 +599,9 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="memory-body">${m.content}</div>
           <div class="memory-author">Registrado por: ${m.recorded_by || 'Familia'} • [${m.category.toUpperCase()}]</div>
         `;
+        item.addEventListener('click', () => {
+          handleUserQuery(`Cuéntame más sobre: "${m.title}" (${m.year || ''})`);
+        });
         memoriesContainer.appendChild(item);
       });
     } catch (e) {
@@ -351,7 +609,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Query Gemma Chronicler
+  // 17. Query Gemma Chronicler
   async function handleUserQuery(query) {
     appendUserMessage(query);
     appendGemmaThinking();
@@ -401,7 +659,7 @@ document.addEventListener('DOMContentLoaded', () => {
     div.className = 'chat-bubble gemma';
     div.innerHTML = html;
 
-    // Optional Speech Synthesis read aloud button
+    // Speech Synthesis read aloud button
     if (textToSpeak && ('speechSynthesis' in window)) {
       const speakBtn = document.createElement('button');
       speakBtn.className = 'btn-speak';

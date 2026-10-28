@@ -56,3 +56,16 @@ def test_export_keepsake_html():
     assert res.status_code == 200
     assert "Libro de Recuerdos" in res.text
     assert "Elena Ramirez Solis" in res.text
+
+def test_burn_sacred_letter():
+    res = client.post("/api/chat/letter", json={
+        "message": "Te extraño todos los días, Abuela. Gracias por enseñarme a tener paciencia.",
+        "recipient_name": "Elena",
+        "sender_name": "Nieta"
+    })
+    assert res.status_code == 200
+    data = res.json()
+    assert "blessing" in data
+    assert "Elena" in data["blessing"]
+    assert data["embers_released"] >= 12
+    assert data["reverence_score"] == 1.0
