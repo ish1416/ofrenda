@@ -2,7 +2,7 @@
   {
     "id": "candle_north",
     "name": "Vela del Norte (Hope)",
-    "is_lit": false,
+    "is_lit": true,
     "lit_at": null,
     "flame_intensity": 1.0
   },

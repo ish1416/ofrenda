@@ -693,4 +693,204 @@ document.addEventListener('DOMContentLoaded', () => {
     const ind = document.getElementById('thinking-indicator');
     if (ind) ind.remove();
   }
+
+  // ==========================================================
+  // FLAGSHIP 1: CERILLOS LA CENTRAL MATCHBOX BINDING
+  // ==========================================================
+  const cerillosMatchbox = document.getElementById('cerillos-matchbox');
+  const matchboxFrictionStrip = document.getElementById('matchbox-friction-strip');
+  if (window.matchEngine && cerillosMatchbox && matchboxFrictionStrip) {
+    window.matchEngine.bindMatchbox(cerillosMatchbox, matchboxFrictionStrip);
+  }
+
+  // ==========================================================
+  // FLAGSHIP 2: CRT SPIRIT OSCILLOSCOPE
+  // ==========================================================
+  let spiritOsc = null;
+  if (window.SpiritOscilloscope && document.getElementById('spirit-oscilloscope')) {
+    spiritOsc = new window.SpiritOscilloscope('spirit-oscilloscope');
+
+    document.querySelectorAll('.osc-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.osc-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        spiritOsc.setMode(btn.getAttribute('data-mode'));
+      });
+    });
+
+    const oscTimeKnob = document.getElementById('osc-time-knob');
+    if (oscTimeKnob) {
+      oscTimeKnob.addEventListener('input', (e) => {
+        spiritOsc.setTimeDiv(e.target.value);
+      });
+    }
+  }
+
+  // ==========================================================
+  // FLAGSHIP 3: 6-TRACK AMBIENT SOUNDSCAPE MIXER
+  // ==========================================================
+  const mixerPowerBtn = document.getElementById('mixer-power-btn');
+  if (window.soundscapeMixer && mixerPowerBtn) {
+    mixerPowerBtn.addEventListener('click', () => {
+      const isPlaying = window.soundscapeMixer.togglePower();
+      mixerPowerBtn.textContent = isPlaying ? '⏹ Apagar Consola' : '⚡ Encender Consola';
+      mixerPowerBtn.style.background = isPlaying ? 'linear-gradient(135deg, #ef4444, #b91c1c)' : 'linear-gradient(135deg, #10b981, #059669)';
+    });
+
+    // Track Faders & Mutes
+    document.querySelectorAll('.mixer-channel-strip').forEach(strip => {
+      const trackName = strip.getAttribute('data-track');
+      const fader = strip.querySelector('.track-fader');
+      const muteBtn = strip.querySelector('.channel-btn-mute');
+
+      if (fader) {
+        fader.addEventListener('input', (e) => {
+          window.soundscapeMixer.setTrackVolume(trackName, e.target.value);
+        });
+      }
+      if (muteBtn) {
+        muteBtn.addEventListener('click', () => {
+          const isMuted = window.soundscapeMixer.toggleMute(trackName);
+          muteBtn.classList.toggle('muted', isMuted);
+          muteBtn.textContent = isMuted ? 'UNMUTE' : 'Mute';
+        });
+      }
+    });
+
+    // Presets
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const preset = btn.getAttribute('data-preset');
+        window.soundscapeMixer.applyPreset(preset);
+        if (!window.soundscapeMixer.isPlaying) {
+          mixerPowerBtn.click();
+        }
+      });
+    });
+
+    // Real-Time VU Meter Needle / Bar Loop
+    setInterval(() => {
+      if (window.soundscapeMixer && window.soundscapeMixer.isPlaying) {
+        const vu = window.soundscapeMixer.getVULevel();
+        document.querySelectorAll('.vu-meter-fill').forEach(fill => {
+          fill.style.width = `${Math.min(100, Math.max(8, vu * 100 * (0.8 + Math.random() * 0.4)))}%`;
+        });
+      }
+    }, 120);
+  }
+
+  // ==========================================================
+  // FLAGSHIP 4: SUGAR SKULL SYMMETRY PAINTER
+  // ==========================================================
+  let skullPainter = null;
+  if (window.SkullPainter && document.getElementById('skull-paint-canvas')) {
+    skullPainter = new window.SkullPainter('skull-paint-canvas');
+
+    document.querySelectorAll('.swatch-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.swatch-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        skullPainter.setColor(btn.getAttribute('data-color'));
+      });
+    });
+
+    document.querySelectorAll('.brush-btn[data-brush]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.brush-btn[data-brush]').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        skullPainter.setBrushType(btn.getAttribute('data-brush'));
+      });
+    });
+
+    const symBtn = document.getElementById('painter-sym-btn');
+    if (symBtn) {
+      symBtn.addEventListener('click', () => {
+        const isSym = skullPainter.toggleSymmetry();
+        symBtn.textContent = isSym ? '✨ Simetría: ON' : '✨ Simetría: OFF';
+      });
+    }
+
+    const clearBtn = document.getElementById('painter-clear-btn');
+    if (clearBtn) clearBtn.addEventListener('click', () => skullPainter.clear());
+
+    const exportBtnPng = document.getElementById('painter-export-btn');
+    if (exportBtnPng) {
+      exportBtnPng.addEventListener('click', () => {
+        const dataUrl = skullPainter.exportPNG();
+        const a = document.createElement('a');
+        a.href = dataUrl;
+        a.download = 'calaverita_de_azucar_elena.png';
+        a.click();
+      });
+    }
+
+    const altarPlaceBtn = document.getElementById('painter-altar-btn');
+    if (altarPlaceBtn) {
+      altarPlaceBtn.addEventListener('click', async () => {
+        altarPlaceBtn.disabled = true;
+        altarPlaceBtn.textContent = 'Colocando en Altar...';
+        if (window.altarAudio) window.altarAudio.playOfferingChime();
+
+        try {
+          await fetch('/api/altar/offerings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              id: 'painted_skull_' + Date.now(),
+              name: 'Calaverita Pintada a Mano',
+              category: 'memento',
+              description: 'Calavera artesanal pintada en el taller con motivos simétricos de cempasúchil.',
+              icon: '🎨'
+            })
+          });
+          loadAltar();
+        } catch (e) {
+          console.error('Failed to place painted skull:', e);
+        } finally {
+          setTimeout(() => {
+            altarPlaceBtn.disabled = false;
+            altarPlaceBtn.textContent = '✨ Colocar en Altar';
+          }, 1200);
+        }
+      });
+    }
+  }
+
+  // ==========================================================
+  // FLAGSHIP 5: 3D CELESTIAL CONSTELLATION OF SOULS
+  // ==========================================================
+  let celestialConstellation = null;
+  if (window.CelestialConstellation && document.getElementById('constellation-canvas')) {
+    celestialConstellation = new window.CelestialConstellation('constellation-canvas');
+  }
+
+  const addSoulBtn = document.getElementById('add-soul-btn');
+  const soulModalBackdrop = document.getElementById('soul-modal-backdrop');
+  const closeSoulModalBtn = document.getElementById('close-soul-modal-btn');
+  const soulForm = document.getElementById('soul-form');
+
+  if (addSoulBtn && soulModalBackdrop) {
+    addSoulBtn.addEventListener('click', () => soulModalBackdrop.classList.add('open'));
+    closeSoulModalBtn.addEventListener('click', () => soulModalBackdrop.classList.remove('open'));
+    soulModalBackdrop.addEventListener('click', (e) => {
+      if (e.target === soulModalBackdrop) soulModalBackdrop.classList.remove('open');
+    });
+
+    soulForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = document.getElementById('soul-name').value.trim();
+      const years = document.getElementById('soul-years').value.trim();
+      const quote = document.getElementById('soul-quote').value.trim();
+
+      if (!name) return;
+
+      if (celestialConstellation) {
+        celestialConstellation.addStar(name, years, quote, '#f59e0b');
+      }
+      if (window.altarAudio) window.altarAudio.playSacredChord();
+
+      soulModalBackdrop.classList.remove('open');
+      soulForm.reset();
+    });
+  }
 });

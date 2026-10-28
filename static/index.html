@@ -111,6 +111,36 @@
           <div id="candles-row" style="display: flex; gap: 28px; flex-wrap: wrap; justify-content: center;" role="region" aria-label="Cardinal Candles">
             <!-- Candles injected by JS -->
           </div>
+
+          <!-- Cerillos La Central Vintage Matchbox (Tactile Drag-and-Strike Physics) -->
+          <div class="matchbox-widget" id="cerillos-matchbox" title="Arrastra el cerillo por la lija para encenderlo con fricción">
+            <div class="matchbox-art">
+              <span style="font-size: 0.72rem; color: #fbbf24; font-weight: bold; letter-spacing: 1px;">CERILLOS LA CENTRAL</span>
+              <span style="font-size: 0.65rem; color: #fef08a;">Clásicos de México • Arrastra por la lija para encender fuego</span>
+            </div>
+            <div class="matchbox-friction-strip" id="matchbox-friction-strip">
+              <div class="match-head-preview"></div>
+              <span style="font-size: 0.65rem; color: #d6d3d1; pointer-events: none; font-weight: 600;">LIJA DE FRICCIÓN (DRAG MATCH TO STRIKE)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3D Celestial Constellation of Souls -->
+        <div class="constellation-showcase">
+          <div class="constellation-header">
+            <div>
+              <h3 style="font-family: var(--font-display); font-size: 1.05rem; color: #fbbf24; margin: 0;">
+                ✨ El Cielo de las Ánimas (3D Celestial Constellation of Souls)
+              </h3>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin: 3px 0 0;">
+                Click and drag to orbit the 3D celestial sphere. Each star shines with an ancestor's eternal light. Hover to read their legacy.
+              </p>
+            </div>
+            <button id="add-soul-btn" class="console-submit" style="font-size: 0.76rem; padding: 6px 14px;">
+              + Elevar un Alma a las Estrellas
+            </button>
+          </div>
+          <canvas id="constellation-canvas" class="constellation-canvas"></canvas>
         </div>
       </section>
 
@@ -215,6 +245,27 @@
               </button>
               <span id="radio-status-text" style="font-size: 0.74rem; color: #d8b4fe; font-style: italic;"></span>
             </div>
+
+            <!-- CRT Spirit Oscilloscope Visualizer -->
+            <div class="oscilloscope-container" style="margin-top: 14px;">
+              <div class="oscilloscope-bezel">
+                <canvas id="spirit-oscilloscope" class="oscilloscope-screen"></canvas>
+              </div>
+              <div class="oscilloscope-knobs">
+                <div class="knob-group">
+                  <label>TRAZO ESPIRITUAL</label>
+                  <div class="osc-mode-buttons">
+                    <button type="button" class="osc-btn active" data-mode="lissajous">Lissajous</button>
+                    <button type="button" class="osc-btn" data-mode="waveform">Onda</button>
+                    <button type="button" class="osc-btn" data-mode="spectrum">Espectro</button>
+                  </div>
+                </div>
+                <div class="knob-group">
+                  <label>TIME / DIV</label>
+                  <input type="range" id="osc-time-knob" min="0.4" max="2.5" step="0.1" value="1.0" class="mini-slider">
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -248,6 +299,53 @@
           </div>
         </div>
 
+        <!-- Interactive Sugar Skull Symmetry Painter Studio -->
+        <div class="skull-painter-section">
+          <div class="painter-canvas-box">
+            <canvas id="skull-paint-canvas" class="skull-paint-canvas"></canvas>
+          </div>
+          <div class="painter-toolbar">
+            <div>
+              <h4 style="color: var(--candle-core); font-family: var(--font-display); font-size: 1.05rem; margin: 0 0 4px;">
+                🎨 Estudio de Pintura: Calaverita de Azúcar
+              </h4>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0 0 10px;">
+                Decorate your sugar skull with symmetric royal icing. Draw on one side and watch it mirror in real time.
+              </p>
+            </div>
+
+            <!-- Color Palette -->
+            <div class="palette-swatches">
+              <button type="button" class="swatch-btn active" data-color="#f59e0b" style="background:#f59e0b;" title="Aztec Gold"></button>
+              <button type="button" class="swatch-btn" data-color="#ec4899" style="background:#ec4899;" title="Bougainvillea Magenta"></button>
+              <button type="button" class="swatch-btn" data-color="#10b981" style="background:#10b981;" title="Jade"></button>
+              <button type="button" class="swatch-btn" data-color="#3b82f6" style="background:#3b82f6;" title="Cobalt Blue"></button>
+              <button type="button" class="swatch-btn" data-color="#8b5cf6" style="background:#8b5cf6;" title="Sacred Violet"></button>
+              <button type="button" class="swatch-btn" data-color="#18181b" style="background:#18181b;" title="Obsidian Black"></button>
+            </div>
+
+            <!-- Brush Types -->
+            <div class="brush-type-buttons">
+              <button type="button" class="brush-btn active" data-brush="line">🖌️ Línea Icing</button>
+              <button type="button" class="brush-btn" data-brush="petals">🌼 Pétalos</button>
+              <button type="button" class="brush-btn" data-brush="dots">⚪ Puntos</button>
+              <button type="button" class="brush-btn" id="painter-sym-btn">✨ Simetría: ON</button>
+            </div>
+
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px;">
+              <button type="button" id="painter-clear-btn" class="brush-btn" style="background: rgba(239, 68, 68, 0.2); border-color: #ef4444; color: #fca5a5;">
+                🧹 Limpiar
+              </button>
+              <button type="button" id="painter-export-btn" class="brush-btn" style="background: rgba(147, 51, 234, 0.25); border-color: #c084fc; color: #e9d5ff;">
+                📥 Descargar PNG
+              </button>
+              <button type="button" id="painter-altar-btn" class="console-submit" style="padding: 6px 14px; font-size: 0.8rem;">
+                ✨ Colocar en Altar
+              </button>
+            </div>
+          </div>
+        </div>
+
         <!-- Traditional Offerings Grid -->
         <h4 style="font-family: var(--font-display); font-size: 1.05rem; color: var(--candle-glow); margin: 24px 0 12px;">
           🌼 Traditional Offerings on the Altar
@@ -272,6 +370,86 @@
           </div>
           <div class="timeline-story-box" id="timeline-story-display">
             "1975: Tuned her Paracho acoustic guitar under the purple jacarandas to record 'La Llorona' and oral memories on cassette."
+          </div>
+        </div>
+
+        <!-- 6-Track Vintage Ambient Soundscape Studio -->
+        <div class="soundscape-mixer-panel" id="soundscape-mixer-panel">
+          <div class="mixer-top-bar">
+            <div>
+              <h4 style="font-family: var(--font-display); font-size: 1.1rem; color: #fbbf24; margin: 0;">
+                🎚️ Consola Acústica: Mezclador Ambiental de 6 Canales
+              </h4>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin: 3px 0 0;">
+                Procedural Web Audio synthesis of traditional Mexican Día de los Muertos soundscapes. 100% offline.
+              </p>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+              <div class="mixer-presets">
+                <button type="button" class="preset-btn" data-preset="vigil">🕯️ Vigilia</button>
+                <button type="button" class="preset-btn" data-preset="coyoacan_rain">🌧️ Lluvia Coyoacán</button>
+                <button type="button" class="preset-btn" data-preset="sacred_peace">🕊️ Paz Sagrada</button>
+              </div>
+              <button type="button" id="mixer-power-btn" class="console-submit" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 6px 14px; font-size: 0.8rem;">
+                ⚡ Encender Consola
+              </button>
+            </div>
+          </div>
+
+          <div class="mixer-tracks-grid">
+            <div class="mixer-channel-strip" data-track="candles">
+              <span class="channel-name">🕯️ Velas & Fuego</span>
+              <div class="fader-wrapper">
+                <input type="range" class="fader-vertical track-fader" min="0" max="1" step="0.05" value="0.6">
+              </div>
+              <button type="button" class="channel-btn-mute">Mute</button>
+              <div class="vu-meter-bar"><div class="vu-meter-fill"></div></div>
+            </div>
+
+            <div class="mixer-channel-strip" data-track="rain">
+              <span class="channel-name">🌧️ Lluvia Tejas</span>
+              <div class="fader-wrapper">
+                <input type="range" class="fader-vertical track-fader" min="0" max="1" step="0.05" value="0.4">
+              </div>
+              <button type="button" class="channel-btn-mute">Mute</button>
+              <div class="vu-meter-bar"><div class="vu-meter-fill"></div></div>
+            </div>
+
+            <div class="mixer-channel-strip" data-track="guitar">
+              <span class="channel-name">🎸 Paracho Acústica</span>
+              <div class="fader-wrapper">
+                <input type="range" class="fader-vertical track-fader" min="0" max="1" step="0.05" value="0.5">
+              </div>
+              <button type="button" class="channel-btn-mute">Mute</button>
+              <div class="vu-meter-bar"><div class="vu-meter-fill"></div></div>
+            </div>
+
+            <div class="mixer-channel-strip" data-track="wind">
+              <span class="channel-name">🌬️ Viento Copal</span>
+              <div class="fader-wrapper">
+                <input type="range" class="fader-vertical track-fader" min="0" max="1" step="0.05" value="0.35">
+              </div>
+              <button type="button" class="channel-btn-mute">Mute</button>
+              <div class="vu-meter-bar"><div class="vu-meter-fill"></div></div>
+            </div>
+
+            <div class="mixer-channel-strip" data-track="bells">
+              <span class="channel-name">🔔 Campanas Catedral</span>
+              <div class="fader-wrapper">
+                <input type="range" class="fader-vertical track-fader" min="0" max="1" step="0.05" value="0.3">
+              </div>
+              <button type="button" class="channel-btn-mute">Mute</button>
+              <div class="vu-meter-bar"><div class="vu-meter-fill"></div></div>
+            </div>
+
+            <div class="mixer-channel-strip" data-track="crickets">
+              <span class="channel-name">🦗 Grillos Oaxaca</span>
+              <div class="fader-wrapper">
+                <input type="range" class="fader-vertical track-fader" min="0" max="1" step="0.05" value="0.25">
+              </div>
+              <button type="button" class="channel-btn-mute">Mute</button>
+              <div class="vu-meter-bar"><div class="vu-meter-fill"></div></div>
+            </div>
           </div>
         </div>
       </section>
@@ -413,10 +591,44 @@
     </div>
   </div>
 
+  <!-- Modal for Adding Soul to 3D Constellation -->
+  <div class="modal-backdrop" id="soul-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="soul-modal-title">
+    <div class="modal-box">
+      <div class="modal-title">
+        <span id="soul-modal-title">✨ Elevar un Alma al Cielo de las Ánimas</span>
+        <button class="modal-close" id="close-soul-modal-btn" aria-label="Close modal">&times;</button>
+      </div>
+
+      <form id="soul-form">
+        <div class="form-group">
+          <label for="soul-name">Nombre del Ser Querido</label>
+          <input type="text" id="soul-name" class="form-control" placeholder="e.g. Abuelito Carlos, Mamá Rosa" required>
+        </div>
+
+        <div class="form-group">
+          <label for="soul-years">Años o Época</label>
+          <input type="text" id="soul-years" class="form-control" placeholder="e.g. 1942–2019" required>
+        </div>
+
+        <div class="form-group">
+          <label for="soul-quote">Frase, Consejo o Recuerdo Especial</label>
+          <textarea id="soul-quote" class="form-control" rows="2" placeholder="Una frase o recuerdo que mantenga viva su luz..." required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">Encender Estrella Eterna</button>
+      </form>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="/js/petals.js"></script>
   <script src="/js/audio.js"></script>
   <script src="/js/smoke.js"></script>
+  <script src="/js/match.js"></script>
+  <script src="/js/oscilloscope.js"></script>
+  <script src="/js/mixer.js"></script>
+  <script src="/js/painter.js"></script>
+  <script src="/js/constellation.js"></script>
   <script src="/js/altar.js"></script>
 </body>
 </html>
