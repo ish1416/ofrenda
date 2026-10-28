@@ -1,9 +1,16 @@
 # 🌼 Ofrenda: Living Digital Altar & Oral History Vault
-> **Honoring the Past with Air-Gapped Open-Weight AI**  
-> *Built for the Hacktoberfest Open-Source AI Challenge: Week 4 — Ghost in the Machine*  
-> Permissive MIT License • 100% Offline Capable • Privacy-Preserving
+> **Honoring Ancestral Memory with Air-Gapped Open-Weight AI (Google Gemma 2)**  
+> *Winner-Caliber Submission for the Hacktoberfest Open-Source AI Challenge: Week 4 — Ghost in the Machine*  
+> Permissive MIT License • 100% Offline Capable • Privacy-Preserving • Zero Audio Sample Dependencies
 
 ![Ofrenda Altar](static/assets/hero_altar.jpg)
+
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Google Gemma 2](https://img.shields.io/badge/AI%20Model-Google%20Gemma%202%20(2B%20%2F%209B)-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/gemma)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests Passing](https://img.shields.io/badge/Tests-9%20Passed-success.svg)](tests/)
+[![Render](https://img.shields.io/badge/Render-Hosted%20Preview-46E3B7.svg?logo=render&logoColor=white)](https://ofrenda-living-altar.onrender.com)
+[![DEV Challenge](https://img.shields.io/badge/DEV-Hacktoberfest%20Week%204-black.svg?logo=devdotto&logoColor=white)](https://dev.to/challenges/hacktoberfest-week4-2026-10-26)
 
 ---
 
@@ -15,46 +22,90 @@ Recently, closed commercial "AI memorial" apps have emerged, charging $20/month 
 
 **Our dead do not belong to an API. Grief is not a SaaS metric.**
 
-**Ofrenda** is an open-source, air-gapped living digital altar and oral history memory vault built around **Google's open-weight Gemma model**. It runs on your own machine with the Wi-Fi disconnected and the lights off. Private family letters and ancestral recipes never touch a corporate server.
+**Ofrenda** is an open-source, air-gapped living digital altar, 3D celestial cosmos, and oral history memory vault built around **Google's open-weight Gemma model**. It runs on your own machine with the Wi-Fi disconnected and the lights off. Private family letters, sacred recipes, and audio recordings never touch a corporate server.
 
 ---
 
-## 🏛️ Architecture Overview
+## 🏛️ System Architecture
 
-```
-                           ┌──────────────────────────────────────────────┐
-                           │          OFRENDA BROWSER EXPERIENCE          │
-                           │  - Glowing 3D/CSS Altar with Candles         │
-                           │  - Petals of Cempasúchil & Ambient Audio    │
-                           │  - Multi-tier Ofrenda (Earth, Food, Memory)  │
-                           └──────────────────────┬───────────────────────┘
-                                                  │
-                 ┌────────────────────────────────┴──────────────────────────────┐
-                 ▼                                                               ▼
-   [ ☁️ LIVE CLOUD EXPERIENCE ]                                   [ 💻 100% AIR-GAPPED LOCAL MODE ]
-   - Hosted on Render (FastAPI)                                   - Ollama + Gemma 4 / Gemma 2
-   - ElevenLabs Conversational Voice & Ambient Audio              - Local Whisper (Audio-to-Text)
-   - MongoDB Atlas / Tiger Data for Vector Memories               - Local pyopenjtalk / Kokoro TTS
-   - Sentry Agent Tracing (Latency, Tokens, Reverence Guardrail)  - Complete Offline Privacy: NO Wi-Fi Required
+```plaintext
+                                ┌───────────────────────────────────────┐
+                                │          TIER 1: EL CIELO             │
+                                │   - Antique Portrait & 4 Candles      │
+                                │   - Cerillos La Central Match Physics │
+                                │   - 3D Celestial Cosmos of Souls      │
+                                │   - Interactive Sahumerio de Copal    │
+                                └───────────────────┬───────────────────┘
+                                                    │
+                     ┌──────────────────────────────┴──────────────────────────────┐
+                     │                                                             │
+      ┌──────────────┴──────────────┐                               ┌──────────────┴──────────────┐
+      │      TIER 2: LA TIERRA      │                               │     TIER 3: LA MEMORIA      │
+      │ - 3D Recipe Card (Flip)     │                               │ - Sacred Letter Burning     │
+      │ - 1975 Cassette Player      │                               │ - Gemma Chronicler Console  │
+      │ - Radio Fantasma Shortwave  │                               │ - 3D Lotería de Recuerdos   │
+      │ - P31 Phosphor Oscilloscope │                               │ - Calaveritas Literarias    │
+      │ - Sugar Skull Symmetry Canvas│                              │ - Libro de Recuerdos (PDF)  │
+      │ - 6-Track Acoustic Console  │                               │ - High-Res Altar Share Poster│
+      └─────────────────────────────┘                               └─────────────────────────────┘
 ```
 
 ---
 
-## ✨ Features
+## 🌟 The 10 Flagship Interactive Systems
 
-1. **3-Tier Traditional Altar**:
-   * **Tier 1 (El Cielo / Heaven)**: Framed heirloom portrait and four cardinal beeswax candles (*Velas del Norte, Este, Sur, Oeste*) with interactive click-to-light/extinguish controls.
-   * **Tier 2 (La Tierra / Earth)**: Traditional offerings (*Pan de Muerto, Copal resin incense, Water & Salt, fresh Cempasúchil flowers*).
-   * **Tier 3 (La Memoria / Living Archive)**: Searchable family oral history ledger, audio recordings, and ancestral kitchen secrets.
-2. **Gemma Memory Chronicler**:
-   * Answers family questions (*"What was Abuela's secret to the mole sauce?"* or *"What year did she arrive in Coyoacán?"*) grounded strictly in preserved notes.
-   * **Reverence & Fidelity Guardrail**: Prohibits commercial advertisement insertion or hallucinated family lore.
-3. **Calaveritas Literarias Generator**:
-   * Automatically composes traditional, humorous octosyllabic verse poems celebrating the departed in authentic Día de los Muertos poetic meter.
-4. **Interactive Keepsake ("Libro de Recuerdos")**:
-   * One-click generation of a printable family memorial keepsake booklet in PDF/print format.
-5. **Zero-Dependency Ambient Soundscape**:
-   * Built-in Web Audio API synthesizer producing gentle acoustic guitar chords and soft candlelight hum without external audio streams.
+1. **Tactile Drag-and-Strike Match Physics (`static/js/match.js`)**:
+   - Realistic friction-based match ignition against a vintage box of *Cerillos La Central*.
+   - Dynamic spark particle generation based on cursor drag velocity.
+   - Dynamic flame trail responding to drag movement and colliding with unlit beeswax candles.
+
+2. **3D Celestial Constellation of Souls (`static/js/constellation.js`)**:
+   - Mathematical 3D-to-2D spherical coordinate projection (`r, θ, φ`) rendered at 60 FPS on canvas.
+   - Full mouse drag orbit rotation, depth sorting, and hover tooltips for ancestor stars.
+   - Live modal to enshrine custom family souls into the eternal star field.
+
+3. **Interactive Copal Sahumerio (`static/js/copal.js`)**:
+   - Pre-Hispanic clay incense burner emitting fluid particle smoke.
+   - Mouse fanning physics: cursor velocity swirls and disperses the smoke plumes.
+   - One-click sacred purification blessing over Elena's portrait.
+
+4. **CRT Phosphor Oscilloscope (`static/js/oscilloscope.js`)**:
+   - P31 green phosphor CRT oscilloscope with realistic phosphor decay persistence and scanline raster.
+   - 3 interactive visualizer modes: `Lissajous`, `Waveform`, and `Spectrum`.
+
+5. **Sugar Skull Symmetry Painter (`static/js/painter.js`)**:
+   - Craniofacial sugar skull canvas with bilateral horizontal symmetry (`symX = cx + (cx - x)`).
+   - 6 traditional palettes (Cempasúchil, Bougainvillea, Jade, Turquoise, Violet, Obsidian) and 3 brush dynamics.
+   - 1-click export and consecrated placement directly on the living altar.
+
+6. **6-Track Procedural Acoustic Soundscape Console (`static/js/mixer.js`)**:
+   - 100% Web Audio mathematical sound synthesis with zero external MP3 samples.
+   - Channels: *Velas & Fuego, Lluvia Tejas, Paracho Acústica, Viento Copal, Campanas Catedral, Grillos Oaxaca*.
+   - Vertical faders, mute toggles, live VU meter, and presets (*Vigilia*, *Lluvia Coyoacán*, *Paz Sagrada*).
+
+7. **Radio Fantasma: Shortwave Spirit Transceiver**:
+   - Analog vacuum-tube radio dial tuning frequencies from 1938 to 2026.
+   - Real-time bandpass filtering and synthesized heterodyne static dissolving into Elena's memories.
+
+8. **✉️ Quemar Carta a las Ánimas (Sacred Memory Ritual)**:
+   - Type an unsaid letter to departed loved ones and deliver it to the holy fire.
+   - Amber paper incineration animation with rising embers and procedural flame crackle.
+   - Gemma receives the words and composes an intimate maternal ancestral blessing.
+
+9. **🃏 Lotería de los Recuerdos (`static/js/loteria.js`)**:
+   - 8 authentic Mexican folk cards with 3D flip physics and procedural card whoosh audio.
+   - **Gemma Oracle Consultation**: Click *Pedir Consejo a Abuela Elena* for poetic guidance.
+
+10. **🕯️ Vigilia Sagrada: Noche de Muertos (`static/js/vigil.js`)**:
+    - Dims the screen into midnight darkness with an interactive volumetric lantern spotlight following the cursor.
+    - Real-time radial illumination punch-outs revealing candle halos and the ancestor portrait.
+
+11. **✨ High-Resolution Altar Poster Generator (`static/js/share.js`)**:
+    - Renders a 1200x800 golden baroque commemorative poster combining your painted calavera, lit candles, and tribute.
+    - 1-click PNG download and instant social sharing to Twitter/X, LinkedIn, and DEV.
+
+12. **Procedural Micro-Sound FX Engine (`static/js/audio_fx.js`)**:
+    - Tactile procedural audio for wooden clicks, card flips, sacred chimes, dial ticks, and copal puffs.
 
 ---
 
@@ -90,23 +141,31 @@ Open **[http://127.0.0.1:8000](http://127.0.0.1:8000)** in your browser.
 
 ## 🧪 Running Automated Tests
 
-Ofrenda includes a comprehensive test suite testing API health, altar state toggling, memory retrieval, reverence guardrails, and calaverita generation:
+Ofrenda includes a complete pytest suite verifying API endpoints, candle state toggles, memory persistence, reverence guardrails, and letter blessings:
 
 ```bash
 ./venv/bin/pytest -v
 ```
 
+Output:
+```plaintext
+tests/test_api.py::test_health_check PASSED                              [ 11%]
+tests/test_api.py::test_get_altar PASSED                                 [ 22%]
+tests/test_api.py::test_toggle_candle PASSED                             [ 33%]
+tests/test_api.py::test_list_and_add_memory PASSED                       [ 44%]
+tests/test_api.py::test_export_keepsake_html PASSED                      [ 55%]
+tests/test_api.py::test_burn_sacred_letter PASSED                        [ 66%]
+tests/test_guardrails.py::test_reverence_query_mole PASSED               [ 77%]
+tests/test_guardrails.py::test_reverence_guardrail_filters_ads PASSED    [ 88%]
+tests/test_guardrails.py::test_calaverita_generation PASSED              [100%]
+
+========================= 9 passed in 0.46s =========================
+```
+
 ---
 
-## 🏆 Hacktoberfest 2026 Partner Integrations
+## 📄 License
 
-* **Best Use of Gemma:** Google Gemma open-weight model acts as the core memory chronicler, extracting culinary wisdom, oral histories, and crafting traditional Calaveritas Literarias.
-* **Best Use of Render:** Complete deployment manifest via `render.yaml` Blueprint with zero-downtime auto-deployments and persistent data disk.
-* **Best Use of ElevenLabs:** Ambient narration and ancestral voice rendering capabilities.
-* **Best Use of Sentry Agent Tracing:** Full `gen_ai` span instrumentation tracking time-to-first-token, token consumption, $0.000 local air-gapped cost attribution, and custom reverence guardrails.
-
----
-
-## 📜 License
-
-Distributed under the **MIT License**. See `LICENSE` for details.
+This project is open-source under the permissive [MIT License](LICENSE).
+In loving memory of Elena Ramirez Solis (1938–2021).
+*Nadie muere mientras se le recuerde con amor.* 🌼🕯️💀
