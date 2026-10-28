@@ -48,6 +48,12 @@
       <button id="seance-toggle-btn" class="btn-toggle btn-seance" title="Enter midnight séance mode with Copal smoke and spirit radio">
         🔮 Thin the Veil (Séance Mode)
       </button>
+      <button id="vigil-toggle-btn" class="btn-toggle vigil-btn" title="Toggle immersive candlelit night vigil mode">
+        🕯️ Entrar en Vigilia (Noche)
+      </button>
+      <button id="btn-open-share-modal" class="btn-toggle share-btn" title="Generate commemorative high-res poster to share">
+        ✨ Compartir Ofrenda
+      </button>
       <button id="mode-toggle-btn" class="btn-toggle" title="Switch between cloud preview and 100% air-gapped local model">
         ☁️ Cloud Demo (Render)
       </button>
@@ -121,6 +127,29 @@
             <div class="matchbox-friction-strip" id="matchbox-friction-strip">
               <div class="match-head-preview"></div>
               <span style="font-size: 0.65rem; color: #d6d3d1; pointer-events: none; font-weight: 600;">LIJA DE FRICCIÓN (DRAG MATCH TO STRIKE)</span>
+            </div>
+          </div>
+
+          <!-- Interactive Sahumerio de Copal (Sacred Incense Smoke Physics) -->
+          <div class="sahumerio-widget" id="sahumerio-widget" title="Mueve el cursor para abanicar el humo • Clic para purificar el altar">
+            <div class="sahumerio-header">
+              <span style="font-size: 0.72rem; color: #67e8f9; font-weight: bold; letter-spacing: 1px;">💨 SAHUMERIO DE COPAL</span>
+              <span style="font-size: 0.65rem; color: #a5f3fc;">Resina Sagrada de Oaxaca</span>
+            </div>
+            <div class="sahumerio-stage">
+              <canvas id="copal-smoke-canvas" class="copal-canvas"></canvas>
+              <div class="sahumerio-burner" id="sahumerio-burner" role="button" tabindex="0" title="Clic para avivar el copal con resina aromática">
+                <div class="sahumerio-bowl">
+                  <div class="sahumerio-embers"></div>
+                </div>
+                <div class="sahumerio-stem"></div>
+              </div>
+            </div>
+            <div style="font-size: 0.66rem; color: #94a3b8; text-align: center; margin-top: 2px;">
+              Mueve cursor para abanicar • Clic para purificar
+            </div>
+            <div id="purification-toast" class="purification-toast hidden">
+              ✨ <em>Copal consagrado: el humo purifica el altar y guía a los difuntos.</em>
             </div>
           </div>
         </div>
@@ -536,6 +565,26 @@
             </form>
           </div>
         </div>
+
+        <!-- Lotería de los Recuerdos (Interactive 3D Ancestral Cards) -->
+        <div class="loteria-section" id="loteria-showcase">
+          <div class="loteria-header">
+            <div>
+              <h3 style="font-family: var(--font-display); font-size: 1.15rem; color: #fbbf24; margin: 0;">
+                🃏 Lotería de los Recuerdos: Cartas de Sabiduría Ancestral
+              </h3>
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin: 3px 0 0;">
+                Traditional Mexican folk memory cards. Click any card to flip its 3D face, or draw a daily card to consult the oracle of Elena with air-gapped Gemma.
+              </p>
+            </div>
+            <button type="button" id="btn-draw-loteria" class="console-submit" style="background: linear-gradient(135deg, #ec4899, #f59e0b); color: white; padding: 7px 16px; font-size: 0.82rem; display: flex; align-items: center; gap: 6px;">
+              🎲 Tirar Carta al Azar
+            </button>
+          </div>
+          <div class="loteria-grid" id="loteria-grid">
+            <!-- Cards rendered by loteria.js -->
+          </div>
+        </div>
       </section>
 
     </div>
@@ -620,7 +669,67 @@
     </div>
   </div>
 
+  <!-- Modal for Lotería de los Recuerdos Card Reading -->
+  <div class="modal-backdrop" id="loteria-modal" role="dialog" aria-modal="true" aria-labelledby="loteria-modal-title">
+    <div class="modal-box loteria-modal-box">
+      <div class="modal-title">
+        <span id="loteria-modal-num" style="color: #fbbf24; font-size: 0.9rem; font-family: monospace;">#01</span>
+        <button class="modal-close" id="loteria-modal-close" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div style="text-align: center; margin: 10px 0 16px;">
+        <div id="loteria-modal-icon" style="font-size: 3.8rem; line-height: 1;">💀</div>
+        <h2 id="loteria-modal-title" style="font-family: var(--font-display); font-size: 1.6rem; margin: 8px 0 2px; color: #ec4899;">La Calavera</h2>
+        <div id="loteria-modal-sub" style="font-size: 0.85rem; color: var(--text-muted); font-style: italic;">El Espejo de la Muerte Dulce</div>
+      </div>
+
+      <div class="loteria-modal-verse-card">
+        <p id="loteria-modal-verse" style="font-family: var(--font-serif); font-size: 1.05rem; color: #fde047; font-style: italic; margin: 0; line-height: 1.6; text-align: center;"></p>
+      </div>
+
+      <p id="loteria-modal-reflection" style="font-size: 0.84rem; color: #d6d3d1; line-height: 1.6; margin: 14px 0;"></p>
+
+      <div style="display: flex; justify-content: center; margin-top: 10px;">
+        <button type="button" id="loteria-consult-oracle" class="console-submit" style="background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; padding: 8px 20px; font-size: 0.86rem; display: flex; align-items: center; gap: 8px;">
+          🔮 Pedir Consejo a Abuela Elena
+        </button>
+      </div>
+
+      <div id="loteria-oracle-response" class="loteria-oracle-box hidden"></div>
+    </div>
+  </div>
+
+  <!-- Modal for High-Resolution Altar Poster & Virality Sharing -->
+  <div class="modal-backdrop" id="share-poster-modal" role="dialog" aria-modal="true" aria-labelledby="share-poster-title">
+    <div class="modal-box share-poster-modal-box">
+      <div class="modal-title">
+        <span id="share-poster-title">✨ Cartel Conmemorativo de la Ofrenda (HD Poster)</span>
+        <button class="modal-close" id="share-modal-close" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="poster-preview-container">
+        <canvas id="share-poster-canvas" class="share-poster-canvas"></canvas>
+      </div>
+
+      <div class="share-actions-row">
+        <button type="button" id="btn-download-poster" class="console-submit" style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 9px 18px; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+          📥 Descargar Imagen HD (PNG)
+        </button>
+        <button type="button" id="btn-share-twitter" class="console-submit" style="background: #000000; border: 1px solid #38bdf8; color: #38bdf8; padding: 9px 16px; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+          🐦 Compartir en X (Twitter)
+        </button>
+        <button type="button" id="btn-share-linkedin" class="console-submit" style="background: #0077b5; color: white; padding: 9px 16px; font-size: 0.85rem; display: flex; align-items: center; gap: 6px;">
+          💼 LinkedIn
+        </button>
+        <button type="button" id="btn-copy-share-link" class="brush-btn" style="padding: 9px 16px; font-size: 0.85rem;">
+          📋 Copiar Enlace
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Scripts -->
+  <script src="/js/audio_fx.js"></script>
   <script src="/js/petals.js"></script>
   <script src="/js/audio.js"></script>
   <script src="/js/smoke.js"></script>
@@ -629,6 +738,10 @@
   <script src="/js/mixer.js"></script>
   <script src="/js/painter.js"></script>
   <script src="/js/constellation.js"></script>
+  <script src="/js/copal.js"></script>
+  <script src="/js/loteria.js"></script>
+  <script src="/js/vigil.js"></script>
+  <script src="/js/share.js"></script>
   <script src="/js/altar.js"></script>
 </body>
 </html>

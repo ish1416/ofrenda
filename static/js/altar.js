@@ -298,12 +298,14 @@ document.addEventListener('DOMContentLoaded', () => {
   if (recipeFlipCard) {
     recipeFlipCard.addEventListener('click', () => {
       recipeFlipCard.classList.toggle('flipped');
+      if (window.soundFx) window.soundFx.cardFlip();
     });
   }
 
   // 6. Timeline Nodes
   timelineNodes.forEach(node => {
     node.addEventListener('click', () => {
+      if (window.soundFx) window.soundFx.clickWood();
       timelineNodes.forEach(n => n.classList.remove('active'));
       node.classList.add('active');
       const story = node.getAttribute('data-story');
@@ -564,6 +566,7 @@ document.addEventListener('DOMContentLoaded', () => {
   async function toggleCandle(candleId, candleEl) {
     try {
       window.altarAudio.playMatchStrike();
+      if (window.soundFx) window.soundFx.sacredChime();
 
       // Trigger bloom effect
       const bloom = document.createElement('div');
