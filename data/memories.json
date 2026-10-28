@@ -1,0 +1,89 @@
+[
+  {
+    "id": "mem_01",
+    "title": "Abuela Elena's Oaxacan Mole Negro Secret",
+    "category": "recipe",
+    "content": "Never rush the chiles. You toast the chilhuacle negro, mulato, and pasilla until they turn ash-dark, then quench them in cool spring water. The secret Abuela whispered was two disks of stone-ground Mexican cinnamon chocolate added right at the very end with a roasted plantain mashed to thicken the pan. She would always say: 'El mole huele a fiesta cuando el corazón está tranquilo' (Mole smells like a fiesta when your heart is peaceful).",
+    "year": "1964",
+    "tags": [
+      "mole",
+      "recipe",
+      "oaxaca",
+      "chocolate"
+    ],
+    "recorded_by": "Maria (Granddaughter)",
+    "created_at": "2026-10-28T14:50:54.770605"
+  },
+  {
+    "id": "mem_02",
+    "title": "Arriving in Coyoacán with Two Suitcases",
+    "category": "story",
+    "content": "We stepped off the second-class bus in Mexico City with two cardboard suitcases tied with twine and little Roberto wrapped tight against my chest in a rebozo. Rain was pouring over the cobblestones near Plaza Hidalgo. We had fifteen pesos left, so we bought a paper cone of roasted chestnuts to share under the awning of the church. I wasn't afraid because the city felt full of tomorrow.",
+    "year": "1958",
+    "tags": [
+      "coyoacan",
+      "migration",
+      "family",
+      "history"
+    ],
+    "recorded_by": "Elena herself (Audio cassette transcription)",
+    "created_at": "2026-10-28T14:50:54.770738"
+  },
+  {
+    "id": "mem_03",
+    "title": "The Rule of the Kitchen Table",
+    "category": "saying",
+    "content": "Whenever Carlos or his brothers argued about politics or money, Abuela would set a basket of warm corn tortillas and a pinch of sea salt in the dead center of the table. She would tap her knuckles against the wood and announce: 'Nadie levanta la voz donde hay pan calientito. Coman primero, perdónense después.' (Nobody raises their voice where warm bread is served. Eat first, forgive after.)",
+    "year": "1982",
+    "tags": [
+      "wisdom",
+      "kitchen",
+      "peace"
+    ],
+    "recorded_by": "Carlos (Son)",
+    "created_at": "2026-10-28T14:50:54.770742"
+  },
+  {
+    "id": "mem_04",
+    "title": "Singing 'La Llorona' under the Jacaranda",
+    "category": "song",
+    "content": "Every spring when the purple jacaranda blossoms covered the courtyard patio, Elena would tune her wooden Paracho guitar. Her singing voice wasn't polished for radio—it was smoky and deep. She sang: 'No sé qué tienen las flores, Llorona, las flores del camposanto...' and she taught all the neighborhood children that flowers on graves aren't for sadness; they are beacons so the wandering spirits can find their way back home.",
+    "year": "1975",
+    "tags": [
+      "song",
+      "music",
+      "lallorona",
+      "celebration"
+    ],
+    "recorded_by": "Rosa (Sister)",
+    "created_at": "2026-10-28T14:50:54.770746"
+  },
+  {
+    "id": "mem_test_01",
+    "title": "Making Hot Chocolate on Cold Mornings",
+    "category": "story",
+    "content": "She would whisk the clay jug with the wooden molinillo until thick foam rose to the rim.",
+    "year": "1995",
+    "tags": [
+      "chocolate",
+      "morning",
+      "warmth"
+    ],
+    "recorded_by": "Test Suite",
+    "created_at": "2026-10-28T14:50:54.803624"
+  },
+  {
+    "id": "mem_test_01",
+    "title": "Making Hot Chocolate on Cold Mornings",
+    "category": "story",
+    "content": "She would whisk the clay jug with the wooden molinillo until thick foam rose to the rim.",
+    "year": "1995",
+    "tags": [
+      "chocolate",
+      "morning",
+      "warmth"
+    ],
+    "recorded_by": "Test Suite",
+    "created_at": "2026-10-28T14:51:34.228787+00:00"
+  }
+]

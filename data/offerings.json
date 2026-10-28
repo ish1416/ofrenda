@@ -1,0 +1,34 @@
+[
+  {
+    "id": "off_01",
+    "name": "Pan de Muerto Tradicional",
+    "category": "food",
+    "description": "Sweet orange blossom bread dusted with sugar, topped with crossbone dough signifying the four cardinal directions.",
+    "placed_at": "2026-10-28T14:50:54.770943",
+    "icon": "🍞"
+  },
+  {
+    "id": "off_02",
+    "name": "Flores de Cempasúchil",
+    "category": "flower",
+    "description": "Golden twenty-petaled marigolds whose pungent perfume guides Elena's spirit through the veil.",
+    "placed_at": "2026-10-28T14:50:54.770947",
+    "icon": "🌼"
+  },
+  {
+    "id": "off_03",
+    "name": "Copal Incense Burner",
+    "category": "incense",
+    "description": "Aromatic resin smoke that cleanses the space of sorrow and sanctifies the home.",
+    "placed_at": "2026-10-28T14:50:54.770950",
+    "icon": "💨"
+  },
+  {
+    "id": "off_04",
+    "name": "Vaso de Agua y Sal",
+    "category": "memento",
+    "description": "Pure well water to quench the soul's long journey thirst, with sea salt to preserve purity.",
+    "placed_at": "2026-10-28T14:50:54.770953",
+    "icon": "🍶"
+  }
+]

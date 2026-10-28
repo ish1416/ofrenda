@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: ofrenda-living-altar
+    runtime: python
+    plan: starter
+    region: oregon
+    healthCheckPath: /api/health
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    disk:
+      name: ofrenda-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: SENTRY_DSN
+        sync: false
+      - key: OLLAMA_HOST
+        value: http://localhost:11434
+      - key: GEMMA_MODEL
+        value: gemma2:9b
+      - key: DATA_DIR
+        value: /var/data
+      - key: DEMO_MODE
+        value: "true"

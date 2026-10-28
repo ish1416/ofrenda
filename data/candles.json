@@ -1,0 +1,30 @@
+[
+  {
+    "id": "candle_north",
+    "name": "Vela del Norte (Hope)",
+    "is_lit": false,
+    "lit_at": null,
+    "flame_intensity": 1.0
+  },
+  {
+    "id": "candle_east",
+    "name": "Vela del Este (Dawn & Memory)",
+    "is_lit": false,
+    "lit_at": null,
+    "flame_intensity": 1.0
+  },
+  {
+    "id": "candle_south",
+    "name": "Vela del Sur (Warmth & Gratitude)",
+    "is_lit": true,
+    "lit_at": null,
+    "flame_intensity": 1.0
+  },
+  {
+    "id": "candle_west",
+    "name": "Vela del Oeste (Peace & Rest)",
+    "is_lit": true,
+    "lit_at": null,
+    "flame_intensity": 1.0
+  }
+]

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ofrenda: Living Digital Altar & Oral History Vault (Día de los Muertos)</title>
+  <meta name="description" content="An open-source, air-gapped living digital altar and oral history memory vault powered by Google Gemma. Preserving ancestral stories, recipes, and remembrances without cloud lock-in.">
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/css/altar.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌼</text></svg>">
+</head>
+<body>
+
+  <!-- Floating Marigold Petal Particle Canvas -->
+  <canvas id="petals-canvas"></canvas>
+
+  <!-- Papel Picado Garland -->
+  <header class="papel-garland" aria-label="Traditional Papel Picado Garland">
+    <div class="papel-flag pink" title="Amor y Alegría">💀</div>
+    <div class="papel-flag orange" title="Luz de Cempasúchil">🌼</div>
+    <div class="papel-flag purple" title="Duelo y Esperanza">🕯️</div>
+    <div class="papel-flag gold" title="Pan y Vida">🍞</div>
+    <div class="papel-flag pink" title="Recuerdo Eterno">✨</div>
+    <div class="papel-flag orange" title="Camino de Flores">🌼</div>
+    <div class="papel-flag purple" title="Paz y Descanso">🕊️</div>
+    <div class="papel-flag gold" title="Espíritu del Hogar">🕯️</div>
+    <div class="papel-flag pink" title="Memoria Viva">💀</div>
+    <div class="papel-flag orange" title="Cempasúchil">🌼</div>
+    <div class="papel-flag purple" title="Altar Sagrado">✨</div>
+  </header>
+
+  <!-- Navigation & Controls -->
+  <nav class="top-nav" aria-label="Main Navigation">
+    <div class="brand-badge">
+      <span class="brand-icon" aria-hidden="true">🌼</span>
+      <div>
+        <div class="brand-title">OFRENDA</div>
+        <div class="brand-tag">Living Digital Altar • Día de los Muertos</div>
+      </div>
+    </div>
+
+    <div class="nav-actions">
+      <button id="mode-toggle-btn" class="btn-toggle" title="Switch between cloud preview and 100% air-gapped local model">
+        ☁️ Cloud Demo (Render)
+      </button>
+      <button id="audio-toggle-btn" class="btn-toggle" title="Toggle peaceful ambient guitar & candle hum">
+        🔈 Ambient Sound: Off
+      </button>
+      <button id="export-btn" class="btn-toggle" title="Generate printable memorial family booklet">
+        🖨️ Libro de Recuerdos
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="main-wrapper">
+
+    <!-- Hero Altar Banner -->
+    <header class="altar-hero">
+      <img src="/assets/hero_altar.jpg" alt="Traditional glowing Día de los Muertos altar with marigolds and candles" class="altar-hero-bg">
+      <div class="altar-hero-overlay">
+        <h1>Ofrenda: Air-Gapped Digital Altar & Oral History Vault</h1>
+        <p class="hero-quote">
+          "Our ancestors do not belong to an API. Grief is not a SaaS metric. We remember our loved ones not through corporate clouds, but through the warmth of memory and the eternal light of open innovation."
+        </p>
+        <div class="hero-attribution">
+          — In loving honor of <strong>Elena Ramirez Solis</strong> (1938 – 2021) • <span id="homage-count">8</span> Homages Placed
+        </div>
+      </div>
+    </header>
+
+    <!-- 3-Tier Altar Stage -->
+    <div class="altar-stage">
+
+      <!-- Tier 1: Cielo (Portrait & Sacred Candles) -->
+      <section class="tier-card" id="tier-1" aria-labelledby="tier-1-title">
+        <div class="tier-header">
+          <div class="tier-title-group">
+            <h2 id="tier-1-title"><span>Tier 1: El Cielo</span> <span>(Heaven & The Sacred Light)</span></h2>
+            <p class="tier-subtitle">Click candles to light or extinguish them. The light guides Elena's spirit back home.</p>
+          </div>
+          <button id="open-modal-btn" class="btn-toggle active" style="font-size: 0.82rem;">
+            + Place New Offering
+          </button>
+        </div>
+
+        <div class="portrait-stage">
+          <div class="portrait-frame-wrapper">
+            <img src="/assets/abuela_portrait.jpg" alt="Elena Ramirez Solis vintage portrait" class="portrait-frame" id="ancestor-portrait">
+            <div class="portrait-caption">Elena Ramirez Solis</div>
+            <div class="portrait-dates">1938 – 2021 • Oaxaca & Coyoacán</div>
+          </div>
+
+          <!-- Cardinal Candles -->
+          <div id="candles-row" style="display: flex; gap: 28px; flex-wrap: wrap; justify-content: center;" role="region" aria-label="Cardinal Candles">
+            <!-- Candles injected by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- Tier 2: Tierra (Traditional Offerings) -->
+      <section class="tier-card" id="tier-2" aria-labelledby="tier-2-title">
+        <div class="tier-header">
+          <div class="tier-title-group">
+            <h2 id="tier-2-title"><span>Tier 2: La Tierra</span> <span>(The Elements & Food of Homecoming)</span></h2>
+            <p class="tier-subtitle">Traditional sustenance for the soul: Pan de muerto, copal resin, salt, and cempasúchil petals.</p>
+          </div>
+        </div>
+
+        <div class="offerings-grid" id="offerings-grid" role="list">
+          <!-- Offerings injected by JS -->
+        </div>
+      </section>
+
+      <!-- Tier 3: Memoria (The Oral History Vault & Gemma Chronicler) -->
+      <section class="tier-card" id="tier-3" aria-labelledby="tier-3-title">
+        <div class="tier-header">
+          <div class="tier-title-group">
+            <h2 id="tier-3-title"><span>Tier 3: La Memoria</span> <span>(The Living Oral History Vault)</span></h2>
+            <p class="tier-subtitle">Preserved audio cassette transcripts, ancestral kitchen secrets, and wisdom that never fades.</p>
+          </div>
+          <button id="calaverita-btn" class="btn-toggle" style="border-color: var(--papel-pink); color: #fbcfe8;">
+            💀 Generate Calaverita Literaria
+          </button>
+        </div>
+
+        <div class="chronicler-layout">
+          <!-- Family Memories Ledger -->
+          <div>
+            <h3 style="font-family: var(--font-display); font-size: 1.05rem; color: var(--candle-glow); margin-bottom: 14px;">
+              📜 Family Memory Ledger (Air-Gapped)
+            </h3>
+            <div class="memories-container" id="memories-list" role="feed">
+              <!-- Memories injected by JS -->
+            </div>
+          </div>
+
+          <!-- Gemma Chronicler Chat Console -->
+          <div class="chronicler-console" role="region" aria-label="Gemma Memory Chronicler Console">
+            <div class="console-header">
+              <div class="model-badge">
+                <span class="status-dot"></span>
+                <span id="model-badge-text">Google Gemma (Cloud Demo + Sentry Traced)</span>
+              </div>
+              <span style="font-size: 0.74rem; color: var(--marigold);">Air-Gapped Ready</span>
+            </div>
+
+            <div class="console-chat" id="chat-messages" role="log" aria-live="polite">
+              <div class="chat-bubble gemma">
+                ¡Bienvenido a la Ofrenda de Elena Ramirez Solis! I am the Chronicler of this altar. 
+                I hold her authentic recipes, oral history recordings, and the wisdom she shared. 
+                Ask me anything about her life, or select a memory below.
+              </div>
+            </div>
+
+            <!-- Suggested Quick Chips -->
+            <div class="suggested-chips" aria-label="Suggested questions">
+              <button class="chip-btn" data-prompt="What was Abuela's secret to the Mole Negro?">🍲 Mole Negro Secret</button>
+              <button class="chip-btn" data-prompt="Tell me about her arrival in Coyoacán in 1958.">🚌 1958 Journey</button>
+              <button class="chip-btn" data-prompt="What was the rule of her kitchen table?">🍞 Kitchen Table Rule</button>
+              <button class="chip-btn" data-prompt="Why did she sing 'La Llorona'?">🎸 Singing La Llorona</button>
+            </div>
+
+            <form class="console-input-area" id="chat-form">
+              <input type="text" id="chat-input" class="console-input" placeholder="Ask about Elena's memories, recipes, or stories..." autocomplete="off">
+              <button type="submit" class="console-submit" id="chat-send-btn">Consult</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Architectural Provenance & Open Source Philosophy -->
+    <footer style="margin-top: 40px; padding: 24px; border-top: 1px solid rgba(245, 158, 11, 0.2); text-align: center; font-size: 0.85rem; color: var(--text-muted);">
+      <p style="margin-bottom: 8px;">
+        <strong>Ofrenda</strong> • Built for the <strong>Hacktoberfest Open-Source AI Challenge: Week 4 (Ghost in the Machine)</strong>
+      </p>
+      <p style="font-size: 0.78rem; color: #a8a29e;">
+        Engineered with Google Gemma open-weight models, FastAPI, Render Blueprints, and Sentry Agent Tracing. Permissive MIT License.
+      </p>
+    </footer>
+
+  </main>
+
+  <!-- Modal for Adding Offerings / Memories -->
+  <div class="modal-backdrop" id="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-box">
+      <div class="modal-title">
+        <span id="modal-title">Place Offering on Elena's Altar</span>
+        <button class="modal-close" id="close-modal-btn" aria-label="Close modal">&times;</button>
+      </div>
+
+      <form id="offering-form">
+        <div class="form-group">
+          <label for="offering-name">Offering or Heirloom Name</label>
+          <input type="text" id="offering-name" class="form-control" placeholder="e.g. Abuela's Paracho Guitar, Marigold Garland" required>
+        </div>
+
+        <div class="form-group">
+          <label for="offering-cat">Category</label>
+          <select id="offering-cat" class="form-control">
+            <option value="food">Food & Drink (Alimento)</option>
+            <option value="flower">Cempasúchil Flowers (Flores)</option>
+            <option value="incense">Copal & Incense (Purificación)</option>
+            <option value="memento">Personal Memento (Recuerdo)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="offering-icon">Symbol Emoji</label>
+          <input type="text" id="offering-icon" class="form-control" value="🌼" placeholder="🌼, 🍞, 🎸, 🕯️">
+        </div>
+
+        <div class="form-group">
+          <label for="offering-desc">Significance & Remembrance Note</label>
+          <textarea id="offering-desc" class="form-control" rows="3" placeholder="Why does this honor her memory? What story does it tell?" required></textarea>
+        </div>
+
+        <button type="submit" class="btn-primary">Confeccionar Ofrenda</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/petals.js"></script>
+  <script src="/js/audio.js"></script>
+  <script src="/js/altar.js"></script>
+</body>
+</html>
