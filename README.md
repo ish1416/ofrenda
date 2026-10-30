@@ -9,7 +9,7 @@
 [![Google Gemma 2](https://img.shields.io/badge/AI%20Model-Google%20Gemma%202%20(2B%20%2F%209B)-4285F4.svg?logo=google&logoColor=white)](https://ai.google.dev/gemma)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Tests Passing](https://img.shields.io/badge/Tests-9%20Passed-success.svg)](tests/)
-[![Render](https://img.shields.io/badge/Render-Hosted%20Preview-46E3B7.svg?logo=render&logoColor=white)](https://ofrenda-living-altar.onrender.com)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/ish1416/ofrenda)
 [![DEV Challenge](https://img.shields.io/badge/DEV-Hacktoberfest%20Week%204-black.svg?logo=devdotto&logoColor=white)](https://dev.to/challenges/hacktoberfest-week4-2026-10-26)
 
 ---
