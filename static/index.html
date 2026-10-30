@@ -45,6 +45,9 @@
     </div>
 
     <div class="nav-actions">
+      <button id="btn-open-dedication-modal" class="btn-toggle dedication-btn" title="Personalize this altar for your own departed loved one (100% sovereign & air-gapped)">
+        🌺 Dedicar Altar Familiar
+      </button>
       <button id="seance-toggle-btn" class="btn-toggle btn-seance" title="Enter midnight séance mode with Copal smoke and spirit radio">
         🔮 Thin the Veil (Séance Mode)
       </button>
@@ -150,6 +153,38 @@
             </div>
             <div id="purification-toast" class="purification-toast hidden">
               ✨ <em>Copal consagrado: el humo purifica el altar y guía a los difuntos.</em>
+            </div>
+          </div>
+        </div>
+
+        <!-- Camino de Cempasúchil (Interactive Sacred Marigold Pathway) -->
+        <div class="camino-showcase" id="camino-showcase">
+          <div class="camino-header">
+            <div>
+              <h3 style="font-family: var(--font-display); font-size: 1.05rem; color: #fbbf24; margin: 0;">
+                🌼 Camino de Cempasúchil (Sacred Marigold Pathway to the Altar)
+              </h3>
+              <p style="font-size: 0.78rem; color: var(--text-muted); margin: 3px 0 0;">
+                Click and drag to scatter glowing marigold petals with dynamic physics and golden pollen. The sun-drenched aroma guides the ánimas home.
+              </p>
+            </div>
+            <div class="camino-actions">
+              <span class="petal-badge">Pétalos: <strong id="camino-petal-count" style="color: #fbbf24;">0</strong></span>
+              <button type="button" id="btn-sow-camino" class="console-submit" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #180d05; font-weight: 700; font-size: 0.76rem; padding: 6px 14px;">
+                🌻 Sembrar Camino Sagrado
+              </button>
+              <button type="button" id="btn-spirit-steps" class="console-submit" style="background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; font-size: 0.76rem; padding: 6px 14px;">
+                ✨ Invocar Huellas de las Ánimas
+              </button>
+              <button type="button" id="btn-clear-camino" class="brush-btn" style="font-size: 0.76rem; padding: 6px 10px;">
+                🧹 Limpiar
+              </button>
+            </div>
+          </div>
+          <div class="camino-canvas-wrapper">
+            <canvas id="camino-canvas" class="camino-canvas"></canvas>
+            <div id="camino-blessing" class="camino-blessing hidden">
+              ✨ <em>El sendero sagrado está iluminado: el aroma del cempasúchil guía a las almas desde el Mictlán.</em>
             </div>
           </div>
         </div>
@@ -728,6 +763,56 @@
     </div>
   </div>
 
+  <!-- Modal for Personalizing Altar Dedication -->
+  <div class="modal-backdrop" id="dedication-modal" role="dialog" aria-modal="true" aria-labelledby="dedication-modal-title">
+    <div class="modal-box dedication-modal-box">
+      <div class="modal-title">
+        <span id="dedication-modal-title">🌺 Consagrar Altar a Mi Familia (100% Soberano)</span>
+        <button class="modal-close" id="close-dedication-modal-btn" aria-label="Close modal">&times;</button>
+      </div>
+      <p style="font-size: 0.8rem; color: var(--text-muted); margin: 6px 0 16px;">
+        "Nuestros antepasados no pertenecen a una API en la nube." Consagra este altar a tu abuela, abuelo, madre, padre o amigo. Todo se guarda localmente en tu navegador sin enviar un solo dato a servidores externos.
+      </p>
+
+      <form id="dedication-form">
+        <div class="form-group">
+          <label for="dedication-name">Nombre del Ser Querido</label>
+          <input type="text" id="dedication-name" class="form-control" placeholder="e.g. Abuelita Rosa, Papá David" required>
+        </div>
+
+        <div class="form-group">
+          <label for="dedication-dates">Años y Lugar de Origen</label>
+          <input type="text" id="dedication-dates" class="form-control" placeholder="e.g. 1942 – 2020 • Michoacán, México" required>
+        </div>
+
+        <div class="form-group">
+          <label for="dedication-quote">Cita, Frase o Regla de Vida Inolvidable</label>
+          <textarea id="dedication-quote" class="form-control" rows="2" placeholder="e.g. 'Nadie levanta la voz donde hay pan calientito. Coman primero, perdónense después.'" required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Fotografía o Retrato</label>
+          <div style="display: flex; gap: 14px; align-items: center;">
+            <img id="dedication-photo-preview" src="/assets/abuela_portrait.jpg" alt="Preview" style="width: 60px; height: 60px; border-radius: 8px; object-fit: cover; border: 2px solid var(--marigold);">
+            <div style="flex: 1;">
+              <input type="file" id="dedication-photo-file" accept="image/*" class="form-control" style="font-size: 0.76rem; padding: 6px;">
+              <span style="font-size: 0.7rem; color: #a1a1aa;">Sube una foto familiar o conserva el retrato tradicional.</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 14px; gap: 10px;">
+          <button type="button" id="btn-reset-dedication" class="brush-btn" style="font-size: 0.78rem;">
+            Restaurar Elena Ramírez
+          </button>
+          <button type="submit" class="btn-primary" style="font-size: 0.82rem; padding: 8px 18px;">
+            Consagrar Altar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Scripts -->
   <script src="/js/audio_fx.js"></script>
   <script src="/js/petals.js"></script>
@@ -742,6 +827,8 @@
   <script src="/js/loteria.js"></script>
   <script src="/js/vigil.js"></script>
   <script src="/js/share.js"></script>
+  <script src="/js/camino.js"></script>
+  <script src="/js/dedication.js"></script>
   <script src="/js/altar.js"></script>
 </body>
 </html>

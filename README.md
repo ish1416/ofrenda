@@ -52,60 +52,70 @@ Recently, closed commercial "AI memorial" apps have emerged, charging $20/month 
 
 ---
 
-## 🌟 The 10 Flagship Interactive Systems
+## 🌟 The 12 Flagship Interactive Systems
 
 1. **Tactile Drag-and-Strike Match Physics (`static/js/match.js`)**:
    - Realistic friction-based match ignition against a vintage box of *Cerillos La Central*.
    - Dynamic spark particle generation based on cursor drag velocity.
    - Dynamic flame trail responding to drag movement and colliding with unlit beeswax candles.
 
-2. **3D Celestial Constellation of Souls (`static/js/constellation.js`)**:
+2. **Camino de Cempasúchil & Footprints of the Ánimas (`static/js/camino.js`)**:
+   - Drag or click to scatter glowing marigold petals with dynamic 3D gradient shading, organic rotation, and golden pollen dust.
+   - 1-Click *Sembrar Camino Sagrado* sows a dense, fragrant pathway guiding wandering spirits.
+   - *Invocar Huellas de las Ánimas* animates ethereal glowing golden footsteps pacing up the pathway, culminating in an ancestral portrait bloom and sacred chimes.
+
+3. **Sovereign Family Altar Personalization (`static/js/dedication.js`)**:
+   - Re-dedicate the altar to any departed ancestor (parent, grandparent, loved one) with custom photo upload, dates, and life quotes.
+   - 100% sovereign browser-local persistence (`localStorage`) — zero bytes sent to external cloud servers.
+   - Dynamically adapts the Gemma Chronicler context to converse about your personal family history.
+
+4. **3D Celestial Constellation of Souls (`static/js/constellation.js`)**:
    - Mathematical 3D-to-2D spherical coordinate projection (`r, θ, φ`) rendered at 60 FPS on canvas.
    - Full mouse drag orbit rotation, depth sorting, and hover tooltips for ancestor stars.
    - Live modal to enshrine custom family souls into the eternal star field.
 
-3. **Interactive Copal Sahumerio (`static/js/copal.js`)**:
+5. **Interactive Copal Sahumerio (`static/js/copal.js`)**:
    - Pre-Hispanic clay incense burner emitting fluid particle smoke.
    - Mouse fanning physics: cursor velocity swirls and disperses the smoke plumes.
    - One-click sacred purification blessing over Elena's portrait.
 
-4. **CRT Phosphor Oscilloscope (`static/js/oscilloscope.js`)**:
+6. **CRT Phosphor Oscilloscope (`static/js/oscilloscope.js`)**:
    - P31 green phosphor CRT oscilloscope with realistic phosphor decay persistence and scanline raster.
    - 3 interactive visualizer modes: `Lissajous`, `Waveform`, and `Spectrum`.
 
-5. **Sugar Skull Symmetry Painter (`static/js/painter.js`)**:
+7. **Sugar Skull Symmetry Painter (`static/js/painter.js`)**:
    - Craniofacial sugar skull canvas with bilateral horizontal symmetry (`symX = cx + (cx - x)`).
    - 6 traditional palettes (Cempasúchil, Bougainvillea, Jade, Turquoise, Violet, Obsidian) and 3 brush dynamics.
    - 1-click export and consecrated placement directly on the living altar.
 
-6. **6-Track Procedural Acoustic Soundscape Console (`static/js/mixer.js`)**:
+8. **6-Track Procedural Acoustic Soundscape Console (`static/js/mixer.js`)**:
    - 100% Web Audio mathematical sound synthesis with zero external MP3 samples.
    - Channels: *Velas & Fuego, Lluvia Tejas, Paracho Acústica, Viento Copal, Campanas Catedral, Grillos Oaxaca*.
    - Vertical faders, mute toggles, live VU meter, and presets (*Vigilia*, *Lluvia Coyoacán*, *Paz Sagrada*).
 
-7. **Radio Fantasma: Shortwave Spirit Transceiver**:
+9. **Radio Fantasma: Shortwave Spirit Transceiver**:
    - Analog vacuum-tube radio dial tuning frequencies from 1938 to 2026.
    - Real-time bandpass filtering and synthesized heterodyne static dissolving into Elena's memories.
 
-8. **✉️ Quemar Carta a las Ánimas (Sacred Memory Ritual)**:
-   - Type an unsaid letter to departed loved ones and deliver it to the holy fire.
-   - Amber paper incineration animation with rising embers and procedural flame crackle.
-   - Gemma receives the words and composes an intimate maternal ancestral blessing.
+10. **✉️ Quemar Carta a las Ánimas (Sacred Memory Ritual)**:
+    - Type an unsaid letter to departed loved ones and deliver it to the holy fire.
+    - Amber paper incineration animation with rising embers and procedural flame crackle.
+    - Gemma receives the words and composes an intimate maternal ancestral blessing.
 
-9. **🃏 Lotería de los Recuerdos (`static/js/loteria.js`)**:
-   - 8 authentic Mexican folk cards with 3D flip physics and procedural card whoosh audio.
-   - **Gemma Oracle Consultation**: Click *Pedir Consejo a Abuela Elena* for poetic guidance.
+11. **🃏 Lotería de los Recuerdos (`static/js/loteria.js`)**:
+    - 8 authentic Mexican folk cards with 3D flip physics and procedural card whoosh audio.
+    - **Gemma Oracle Consultation**: Click *Pedir Consejo a Abuela Elena* for poetic guidance.
 
-10. **🕯️ Vigilia Sagrada: Noche de Muertos (`static/js/vigil.js`)**:
+12. **🕯️ Vigilia Sagrada: Noche de Muertos (`static/js/vigil.js`)**:
     - Dims the screen into midnight darkness with an interactive volumetric lantern spotlight following the cursor.
     - Real-time radial illumination punch-outs revealing candle halos and the ancestor portrait.
 
-11. **✨ High-Resolution Altar Poster Generator (`static/js/share.js`)**:
+13. **✨ High-Resolution Altar Poster Generator (`static/js/share.js`)**:
     - Renders a 1200x800 golden baroque commemorative poster combining your painted calavera, lit candles, and tribute.
     - 1-click PNG download and instant social sharing to Twitter/X, LinkedIn, and DEV.
 
-12. **Procedural Micro-Sound FX Engine (`static/js/audio_fx.js`)**:
-    - Tactile procedural audio for wooden clicks, card flips, sacred chimes, dial ticks, and copal puffs.
+14. **Procedural Micro-Sound FX Engine (`static/js/audio_fx.js`)**:
+    - Tactile procedural audio for wooden clicks, card flips, sacred chimes, dial ticks, petal rustles, and spirit footsteps.
 
 ---
 

@@ -161,6 +161,64 @@ class SoundEffects {
     osc.start();
     osc.stop(this.ctx.currentTime + 0.02);
   }
+
+  // Soft marigold petal rustle & settling
+  petalScatter() {
+    if (!this.enabled) return;
+    this.init();
+    if (!this.ctx) return;
+
+    const bufferSize = this.ctx.sampleRate * 0.18;
+    const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < bufferSize; i++) {
+      data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / bufferSize, 3);
+    }
+
+    const noise = this.ctx.createBufferSource();
+    noise.buffer = buffer;
+
+    const filter = this.ctx.createBiquadFilter();
+    filter.type = 'bandpass';
+    filter.frequency.setValueAtTime(1200 + Math.random() * 400, this.ctx.currentTime);
+    filter.Q.value = 2.0;
+
+    const gain = this.ctx.createGain();
+    gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.18);
+
+    noise.connect(filter);
+    filter.connect(gain);
+    gain.connect(this.ctx.destination);
+
+    noise.start();
+  }
+
+  // Ethereal footsteps of returning ancestors
+  spiritStep() {
+    if (!this.enabled) return;
+    this.init();
+    if (!this.ctx) return;
+
+    // Harmonic dual tone (soft chime + sub warmth)
+    const tones = [440, 659.25, 880]; // A4, E5, A5
+    tones.forEach((freq, idx) => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+      gain.gain.setValueAtTime(0.04 / (idx + 1), this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 0.7);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start();
+      osc.stop(this.ctx.currentTime + 0.75);
+    });
+  }
 }
 
 window.soundFx = new SoundEffects();
