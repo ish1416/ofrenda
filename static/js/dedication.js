@@ -171,3 +171,4 @@ class AltarDedicationEngine {
 document.addEventListener("DOMContentLoaded", () => {
   window.altarDedicationEngine = new AltarDedicationEngine();
 });
+
